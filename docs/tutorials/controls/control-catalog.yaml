@@ -1,6 +1,6 @@
 # Container Management Tool Security Control Catalog
 # Conforms to Gemara Layer 2 #ControlCatalog (layer-2.cue).
-# See control-catalog-guide.md for the tutorial; control-catalog.md for narrative.
+# See control-catalog-guide.md for the full tutorial and this scenario.
 
 title: Container Management Tool Security Control Catalog
 
@@ -36,29 +36,79 @@ families:
       Controls that ensure container images are authentic, unmodified,
       and from trusted sources throughout retrieval and use.
 
+imported-controls:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.CTL42
+        remarks: Image signing and verification
+
 controls:
   - id: SEC.SLAM.CM.CTL01
     title: Use Immutable Image References by Digest
     objective: |
-      Ensure the container management tool resolves and uses container images
-      by digest (or digest-plus-tag) so that image identity is immutable and
-      tampering or tag swapping cannot substitute a different image.
+      Require signature validation so that only legitimate, trusted images are
+      accepted; then pin each image to an immutable digest (e.g., sha256)
+      after the check so that what is used matches what was verified and
+      TOCTOU (time-of-check to time-of-use) attacks are prevented.
     family: SEC.SLAM.CM.FAM01
     assessment-requirements:
       - id: SEC.SLAM.CM.CTL01.AR01
         text: |
-          The system MUST resolve image references to a digest (e.g., sha256:...)
-          before pull or run and MUST use that digest for all subsequent use.
+          The system MUST verify image signature before pull or run, then pin
+          the image to a digest (e.g., sha256:...) after the check and use that
+          digest for all subsequent use.
         applicability: ["all deployments"]
       - id: SEC.SLAM.CM.CTL01.AR02
         text: |
           Configuration and policies MUST disallow or override use of tag-only
           references for production or sensitive workloads where supported.
         applicability: ["production", "sensitive workloads"]
-    threat-mappings:
+    threats:
       - reference-id: SEC.SLAM.CM
         entries:
           - reference-id: SEC.SLAM.CM.THR01
+          - reference-id: SEC.SLAM.CM.THR03
+          - reference-id: SEC.SLAM.CM.THR04
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH14
+  - id: SEC.SLAM.CM.CTL02
+    title: Require TLS/SSL with Certificate Pinning
+    objective: |
+      Mitigate MITM Container Image Interception by protecting registry
+      traffic and verifying artifact integrity: use TLS/SSL with certificate
+      pinning for all registry communication, use VPNs on untrusted networks
+      to reduce interception risk, and verify artifact signatures or hashes so
+      that tampered or redirected content is detected even if the channel is
+      compromised.
+    family: SEC.SLAM.CM.FAM01
+    state: Active
+    assessment-requirements:
+      - id: SEC.SLAM.CM.CTL02.AR01
+        text: |
+          The system MUST use TLS/SSL for all registry communication and MUST
+          pin to the expected server certificate or public key (or certificate
+          chain) for the registry.
+        applicability: ["all deployments"]
+        state: Active
+      - id: SEC.SLAM.CM.CTL02.AR02
+        text: |
+          On untrusted networks, the system or deployment pipeline MUST use a
+          VPN or other trusted path for registry traffic, or MUST restrict
+          image pulls to environments where the network is trusted.
+        applicability: ["untrusted networks", "CI/CD"]
+        state: Active
+      - id: SEC.SLAM.CM.CTL02.AR03
+        text: |
+          The system MUST verify artifact signatures or hashes (e.g. signature
+          verification, digest check) before use so that tampered or redirected
+          artifacts are rejected.
+        applicability: ["all deployments"]
+        state: Active
+    threat-mappings:
+      - reference-id: SEC.SLAM.CM
+        entries:
+          - reference-id: SEC.SLAM.CM.THR02
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH02

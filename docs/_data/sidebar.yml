@@ -4,5 +4,16 @@
   url: /schema/
 - title: The SDKs
   url: /sdk/
+- title: Tutorials
+  url: /tutorials/
+  children:
+    - title: Threats & Controls
+      children:
+        - title: Threat Assessment Guide
+          url: /tutorials/controls/threat-assessment-guide
+        - title: Control Catalog Guide
+          url: /tutorials/controls/control-catalog-guide
+    - title: Persona–Layer Alignment
+      url: /tutorials/persona-layer-alignment
 - title: ADRs
   url: /adrs/
