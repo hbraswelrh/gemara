@@ -1,6 +1,6 @@
 # Container Management Tool Security Control Catalog
 # Conforms to Gemara Layer 2 #ControlCatalog (layer-2.cue).
-# See control-catalog-guide.md for the tutorial; control-catalog.md for narrative.
+# See control-catalog-guide.md for the full tutorial and this scenario.
 
 title: Container Management Tool Security Control Catalog
 

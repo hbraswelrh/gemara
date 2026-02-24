@@ -1,12 +1,12 @@
-<!-- ---
+---
+layout: page
 title: Organizational Policy Tutorial (Guinevere Persona)
 description: Layer 3 policy document tutorial through the lens of Guinevere GRC, Security Governance Lead
-tags: ["Inspector", "Layer 3", "Persona"]
---- -->
+---
 
 # Organizational Policy Tutorial — As Guinevere (Layer 3 Persona)
 
-This tutorial presents **Layer 3: Risk and Policy** through the lens of the best-fit persona for authoring or consuming organizational policy documents. Use it together with the [Organization Risk & Policy Tutorial](organizational-policy.md); here we frame the work as **Guinevere GRC (Security Governance Lead)** would.
+This tutorial presents **Layer 3: Risk and Policy** through the lens of the best-fit persona for authoring or consuming organizational policy documents. Use it together with the [Organization Risk & Policy Tutorial](policy-guide.md); here we frame the work as **Guinevere GRC (Security Governance Lead)** would.
 
 ## Persona: Guinevere GRC — Security Governance Lead
 
@@ -22,27 +22,16 @@ This tutorial presents **Layer 3: Risk and Policy** through the lens of the best
 
 ---
 
-## What You’ll Build (Layer 3)
+## What You’ll Build
 
-A **policy document** that conforms to the Gemara Layer 3 schema in `layer-3.cue`. The schema defines:
-
-- **title** — Display name for the policy.
-- **metadata** — id, description, author, optional version, date, and **mapping-references** for any external artifact you reference in `imports`.
-- **contacts** — RACI: `responsible`, `accountable`, and optionally `consulted`, `informed` (each a list of contact entries: name, optional affiliation, optional email).
-- **scope** — `in` and optional `out` as dimension fields (e.g. technologies, geopolitical, sensitivity, users, groups) that define what and who the policy applies to.
-- **imports** — Optional **policies**, **catalogs**, and **guidance**. For catalogs you can add exclusions, constraints, and **assessment-requirement-modifications** (add, modify, remove, replace, override). For guidance you can add exclusions and constraints. Each `reference-id` must match an id in `metadata.mapping-references`.
-- **implementation-plan** (optional) — When the policy becomes active: notification-process, evaluation-timeline, enforcement-timeline (each with start, optional end, notes).
-- **risks** (optional) — **mitigated** (list of mappings to risk entries) and **accepted** (with optional scope and justification).
-- **adherence** — How compliance is checked and enforced: **evaluation-methods**, **assessment-plans**, **enforcement-methods** (each using types such as manual, behavioral, automated, autoremediation, gate), and **non-compliance** (string describing handling).
-
-Use [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) as the source of truth for required vs optional fields and for nested structures.
+For the policy document structure and full schema overview (fields, imports, adherence), see [Organization Risk & Policy Tutorial — What You'll Build](policy-guide.md#what-youll-build) in the base tutorial.
 
 ---
 
 ## Walkthrough (with Guinevere in mind)
 
 1. **Use the base tutorial**  
-   Follow the structure and steps in the [Organization Risk & Policy Tutorial](organizational-policy.md), which is outlined from the current **layer-3.cue** schema (metadata, contacts, scope, imports, implementation-plan, risks, adherence).
+   Follow the structure and steps in the [Organization Risk & Policy Tutorial](policy-guide.md), which is outlined from the current **layer-3.cue** schema (metadata, contacts, scope, imports, implementation-plan, risks, adherence).
 
 2. **Start from risk and controls**  
    Before writing policy, you need:
@@ -71,7 +60,7 @@ Use [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) as
 - **Layer 7** audit and continuous monitoring will assess the effectiveness of this policy and of the evaluation and enforcement activities.
 
 Upstream, your policy relies on:
-- **Layer 2** control catalogs (and threat catalogs): [Threat Assessment Guide](../controls/threat-assessment.md), [Control Catalog Guide](../controls/control-catalog-guide.md), and the [Layer 2 persona tutorial](../controls/threat-and-control-tutorial-persona.md) (Pang).
-- **Layer 1** guidance catalogs (optional): [Guidance Catalog Guide](../guidance/guidance-tutorial.md) and the [Layer 1 persona tutorial](../guidance/guidance-tutorial-persona.md) (Sachiko).
+- **Layer 2** control catalogs (and threat catalogs): [Threat Assessment Guide](../controls/threat-assessment-guide.md), [Control Catalog Guide](../controls/control-catalog-guide.md), and the [Layer 2 persona tutorial](../controls/threat-and-control-tutorial-persona.md) (Pang).
+- **Layer 1** guidance catalogs (optional): [Guidance Catalog Guide](../guidance/guidance-guide.md) and the [Layer 1 persona tutorial](../guidance/guidance-tutorial-persona.md) (Sachiko).
 
 See the [Persona–Layer Alignment](../persona-layer-alignment.md) for how Guinevere maps to Layer 3 and how the definition layers (1, 2, 3) connect.

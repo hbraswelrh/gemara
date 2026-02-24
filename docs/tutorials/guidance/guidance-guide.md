@@ -1,8 +1,8 @@
-<!-- ---
+---
+layout: page
 title: Guidance Catalog Guide
 description: Step-by-step guide to creating Gemara-compatible guidance catalogs
-tags: ["Inspector"]
---- -->
+---
 
 # Guidance Catalog Guide
 
@@ -132,7 +132,7 @@ cue vet -c -d '#GuidanceCatalog' ./layer-1.cue ./metadata.cue ./mapping.cue ./ba
 
 ### Minimal Full Example
 
-A copy of this catalog is in `guidance-example.yaml` in this directory. Combined minimal catalog:
+A complete, schema-valid copy of this catalog is in [guidance-example.yaml](guidance-example.yaml) in this directory. Combined minimal catalog:
 
 ```yaml
 title: Secure Software Development Guidance

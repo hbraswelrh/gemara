@@ -1,14 +1,14 @@
-<!-- ---
+---
+layout: page
 title: Control Catalog Guide
 description: Step-by-step guide to creating Gemara-compatible control catalogs
-tags: ["Inspector"]
---- -->
+---
 
 # Control Catalog Guide
 
 ## What This Is
 
-This guide walks through creating a **control catalog** using the [Gemara](https://gemara.openssf.org/) project, building on the threats and scope you identified in the [Threat Assessment Guide](threat-assessment.md).
+This guide walks through creating a **control catalog** using the [Gemara](https://gemara.openssf.org/) project, building on the threats and scope you identified in the [Threat Assessment Guide](threat-assessment-guide.md).
 
 **The basic idea:** After you know what can go wrong (threats), you define **controls**—safeguards or countermeasures—that mitigate those threats. Each control has a clear **objective**, belongs to a **family** (e.g., "Image Integrity"), and includes **assessment requirements**: verifiable conditions that an evaluator can check to confirm the control is met.
 
@@ -21,7 +21,12 @@ This exercise produces a structured, machine-readable catalog you can validate w
 
 ## Prerequisites
 
-Complete the [Threat Assessment Guide](threat-assessment.md) for your scope (e.g., the container management tool **SEC.SLAM.CM**). You will reference the threat catalog’s ID and threat IDs when defining controls and threat-mappings.
+Complete the [Threat Assessment Guide](threat-assessment-guide.md) for your scope (e.g., the container management tool **SEC.SLAM.CM**). You will reference the threat catalog’s ID and threat IDs when defining controls and threat-mappings.
+
+
+## Scenario
+
+**Pang**, the Product Security Engineer, has completed the threat assessment for the container management tool and identified threats such as **Container Image Tampering or Poisoning** (SEC.SLAM.CM.THR01) and the imported **Older Resource Versions are Used** (CCC.Core.TH14). This walkthrough produces a control catalog that defines safeguards mitigating those threats and that you can use for evaluations and guideline mappings.
 
 ## Walkthrough
 
@@ -180,9 +185,82 @@ cue vet -c -d '#ControlCatalog' ./layer-2.cue ./metadata.cue ./mapping.cue ./bas
 
 Fix any reported errors (e.g., missing required fields, invalid `family` reference, or malformed `threat-mappings`) so the catalog is schema-consistent.
 
-### Step 5: Assemble the Full Catalog
+### Step 5: Assemble the Full Catalog and Validate
 
-Combine metadata, mapping-references, families, imported-controls (if any), and controls into a single YAML document. The [control catalog example](control-catalog.md) for SEC.SLAM.CM shows a complete, schema-valid catalog you can adapt for your own scope.
+Combine metadata, mapping-references, families, imported-controls (if any), and controls into a single YAML document. A complete, schema-valid catalog for the SEC.SLAM.CM scenario is in [control-catalog.yaml](control-catalog.yaml) in this directory.
+
+**Complete example (SEC.SLAM.CM):**
+
+```yaml
+title: Container Management Tool Security Control Catalog
+
+metadata:
+  id: SEC.SLAM.CM
+  description: |
+    Control catalog for container management tool security; mitigates threats
+    from the SEC.SLAM.CM threat catalog.
+  version: 1.0.0
+  author:
+    id: example
+    name: Example
+    type: Human
+  mapping-references:
+    - id: SEC.SLAM.CM
+      title: Container Management Tool Security Threat Catalog
+      version: "1.0.0"
+      url: https://example.org/catalogs/SEC.SLAM.CM-threats.yaml
+      description: |
+        Threat catalog for the same scope; provides threat IDs for threat-mappings.
+    - id: CCC
+      title: Common Cloud Controls Core
+      version: v2025.10
+      url: https://github.com/finos/common-cloud-controls/releases
+      description: |
+        Foundational repository of reusable security controls, capabilities,
+        and threat models maintained by FINOS.
+
+families:
+  - id: SEC.SLAM.CM.FAM01
+    title: Image Integrity and Supply Chain
+    description: |
+      Controls that ensure container images are authentic, unmodified,
+      and from trusted sources throughout retrieval and use.
+
+controls:
+  - id: SEC.SLAM.CM.CTL01
+    title: Use Immutable Image References by Digest
+    objective: |
+      Ensure the container management tool resolves and uses container images
+      by digest (or digest-plus-tag) so that image identity is immutable and
+      tampering or tag swapping cannot substitute a different image.
+    family: SEC.SLAM.CM.FAM01
+    assessment-requirements:
+      - id: SEC.SLAM.CM.CTL01.AR01
+        text: |
+          The system MUST resolve image references to a digest (e.g., sha256:...)
+          before pull or run and MUST use that digest for all subsequent use.
+        applicability: ["all deployments"]
+      - id: SEC.SLAM.CM.CTL01.AR02
+        text: |
+          Configuration and policies MUST disallow or override use of tag-only
+          references for production or sensitive workloads where supported.
+        applicability: ["production", "sensitive workloads"]
+    threat-mappings:
+      - reference-id: SEC.SLAM.CM
+        entries:
+          - reference-id: SEC.SLAM.CM.THR01
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH14
+```
+
+**Validate** from the repo root:
+
+```bash
+cue vet -c -d '#ControlCatalog' ./layer-2.cue ./metadata.cue ./mapping.cue ./base.cue docs/tutorials/controls/control-catalog.yaml
+```
+
+Fix any reported errors (e.g., missing required fields, invalid `family` reference, or malformed `threat-mappings`) so the catalog is schema-consistent.
 
 ## Summary: From Threat Assessment to Control Catalog
 

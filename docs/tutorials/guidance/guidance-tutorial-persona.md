@@ -1,12 +1,12 @@
-<!-- ---
+---
+layout: page
 title: Guidance Catalog Guide (Sachiko Persona)
 description: Layer 1 guidance catalog tutorial through the lens of Sachiko the Solution Architect
-tags: ["Inspector", "Layer 1", "Persona"]
---- -->
+---
 
 # Guidance Catalog Guide — As Sachiko (Layer 1 Persona)
 
-This tutorial presents **Layer 1: Vectors and Guidance** through the lens of the best-fit persona for authoring or adopting guidance catalogs. Follow the same steps as in the [Guidance Catalog Guide](guidance-tutorial.md); here we frame them as **Sachiko the Solution Architect** would.
+This tutorial presents **Layer 1: Vectors and Guidance** through the lens of the best-fit persona for authoring or adopting guidance catalogs. Follow the same steps as in the [Guidance Catalog Guide](guidance-guide.md); here we frame them as **Sachiko the Solution Architect** would.
 
 ## Persona: Sachiko the Solution Architect
 
@@ -26,28 +26,13 @@ This tutorial presents **Layer 1: Vectors and Guidance** through the lens of the
 
 ## Walkthrough (with Sachiko in mind)
 
-Use the full step-by-step flow in the [Guidance Catalog Guide](guidance-tutorial.md). While you do:
-
-1. **Step 0 – Scope and catalog type**  
-   Choose a scope that matches how you think about systems: e.g. secure development, supply chain, or secure ML. Pick **Best Practice** or **Framework** for org-specific reuse; use **Standard** or **Regulation** if you’re aligning to a formal or regulatory source.
-
-2. **Step 1 – Metadata and mapping-references**  
-   Add `mapping-references` to the external standards your org cares about (OWASP, NIST, SLSA, etc.). Sachiko’s catalogs are meant to be the single place teams look for “what good looks like,” so clear references matter.
-
-3. **Step 2 – Families**  
-   Group guidelines by theme (e.g. “Secure Dependencies and Supply Chain,” “Access Control”). These families are the same conceptual buckets you’d use in design reviews and architecture docs.
-
-4. **Step 3 – Guidelines**  
-   Write each guideline with an **objective** and optional **recommendations** and **applicability**. Use **`guideline-mappings`** to tie each guideline to specific entries in OWASP, NIST, or other references—so when Pang (Layer 2) or Guinevere (Layer 3) reference your catalog, the lineage to standards is explicit.
-
-5. **Step 4 – Validate**  
-   Validate against the Layer 1 schema as in the main guide.
+Follow the full step-by-step flow in the [Guidance Catalog Guide](guidance-guide.md) (Step 0: Scope and catalog type → Step 1: Metadata → Step 2: Families → Step 3: Guidelines → Step 4: Validate). As Sachiko, emphasize: scope and type that match how your org thinks about systems; `mapping-references` to the standards you care about (OWASP, NIST, SLSA, etc.); families that align with design reviews and architecture; and **`guideline-mappings`** on each guideline so Pang (Layer 2) and Guinevere (Layer 3) can trace lineage to standards.
 
 ---
 
 ## What’s Next
 
-- Map your guidance to **Layer 2 controls** via control catalogs’ `guideline-mappings` (Pang’s world): [Threat Assessment Guide](../controls/threat-assessment.md) and [Control Catalog Guide](../controls/control-catalog-guide.md).
-- Reference this catalog from **Layer 3 policy** (Guinevere’s world): [Organizational Policy Tutorial](../policy/organizational-policy.md) and the [Layer 3 persona tutorial](../policy/organizational-policy-tutorial-persona.md).
+- Map your guidance to **Layer 2 controls** via control catalogs’ `guideline-mappings` (Pang’s world): [Threat Assessment Guide](../controls/threat-assessment-guide.md) and [Control Catalog Guide](../controls/control-catalog-guide.md).
+- Reference this catalog from **Layer 3 policy** (Guinevere’s world): [Organizational Policy Tutorial](../policy/policy-guide.md) and the [Layer 3 persona tutorial](../policy/policy-tutorial-persona.md).
 
 See the [Persona–Layer Alignment](../persona-layer-alignment.md) for how Sachiko, Grear, and Regulated Ragnar map to Layer 1.

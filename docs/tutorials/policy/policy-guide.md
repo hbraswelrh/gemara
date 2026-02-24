@@ -1,3 +1,8 @@
+---
+layout: page
+title: Organization Risk & Policy Tutorial
+---
+
 # Organization Risk & Policy Tutorial
 
 This guide walks through creating a **policy document** using the [Gemara](https://gemara.openssf.org/) project. The document conforms to the **Layer 3** schema in `layer-3.cue`.
@@ -13,31 +18,31 @@ A **policy document** that defines:
 - **Which risks** are mitigated vs accepted (with justification for accepted risks).
 - **How** adherence is evaluated and enforced (evaluation methods, assessment plans, enforcement methods, non-compliance handling).
 
-## Schema overview (layer-3.cue)
-
-The top-level policy structure is:
+The policy conforms to the Gemara Layer 3 schema in `layer-3.cue`. Top-level structure:
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `title` | Yes | Display name for the policy. |
 | `metadata` | Yes | id, description, author, optional version, date, mapping-references. |
-| `contacts` | Yes | responsible, accountable, optional consulted, informed (each a list of contact entries: name, optional affiliation, optional email). |
-| `scope` | Yes | `in` (and optional `out`) as dimensions: optional technologies, geopolitical, sensitivity, users, groups. |
+| `contacts` | Yes | RACI: responsible, accountable, optional consulted, informed. Each entry: name, optional affiliation, optional email. |
+| `scope` | Yes | `in` and optional `out` as dimensions (technologies, geopolitical, sensitivity, users, groups). |
 | `imports` | Yes | Optional policies, catalogs, and guidance. |
-| `implementation-plan` | No | Optional notification-process; evaluation-timeline and enforcement-timeline (each with start, optional end, notes). |
-| `risks` | No | Optional mitigated (list of mappings to risk entries), optional accepted (list of risk entries with optional scope and justification). |
+| `implementation-plan` | No | Optional notification-process; evaluation-timeline and enforcement-timeline with start, optional end, notes. |
+| `risks` | No | Optional mitigated (mappings to risk entries) and/or accepted (risk entries with optional scope and justification). |
 | `adherence` | Yes | Optional evaluation-methods, assessment-plans, enforcement-methods, non-compliance. |
 
 **Imports:**
 
-- **`imports.guidance`** — For each guidance source: reference-id (must match a mapping-reference id in metadata), optional exclusions, optional constraints (each with id, target-id, and text).
-- **`imports.catalogs`** — For each control catalog: reference-id, optional exclusions, optional constraints, optional assessment-requirement-modifications (each with id, target-id, modification-type, modification-rationale, and optional text, applicability, recommendation). modification-type is one of: add, modify, remove, replace, override.
+- **`imports.guidance`** — List of guidance imports used when the policy aligns to Layer 1 guidance catalogs. Use reference-id (must match metadata.mapping-references). Optional exclusions and constraints (id, target-id, text).
+- **`imports.catalogs`** — List of catalog imports used when the policy references Layer 2 control catalogs. Use assessment-requirement-modifications to tailor how assessment requirements are applied (add, modify, remove, replace, override).
 
 **Adherence:**
 
-- **`adherence.evaluation-methods`** / **`adherence.enforcement-methods`** — Lists of accepted methods: type (manual, behavioral, automated, autoremediation, gate), optional description, optional executor.
-- **`adherence.assessment-plans`** — List of assessment plans: id, requirement-id, frequency, evaluation-methods, optional evidence-requirements, optional parameters.
+- **`adherence.evaluation-methods`** / **`adherence.enforcement-methods`** — Lists of accepted methods. Type: manual, behavioral, automated, autoremediation, or gate. Optional description and executor.
+- **`adherence.assessment-plans`** — List of assessment plans: id, requirement-id, frequency, evaluation-methods, optional evidence-requirements and parameters.
 - **`adherence.non-compliance`** — String describing how non-compliance is communicated or handled.
+
+Use [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) as the source of truth for required vs optional fields and nested structures.
 
 ## Scenario
 
@@ -86,7 +91,7 @@ metadata:
 
 ### Step 2: Contacts
 
-Define `contacts` with at least `responsible` and `accountable` (each a list of contact entries with `name`, and optionally `affiliation`, `email`). Add `consulted` and `informed` if needed.
+Define `contacts` with at least `responsible` and `accountable`. Each entry has `name`; optionally `affiliation` and `email`. Add `consulted` and `informed` if needed.
 
 **Example (YAML):**
 
@@ -135,8 +140,8 @@ scope:
 
 Under `imports`:
 
-- **`guidance`**: List of guidance imports (reference-id, optional exclusions, optional constraints). Use when the policy aligns to Layer 1 guidance catalogs.
-- **`catalogs`**: List of catalog imports (reference-id, optional exclusions, constraints, assessment-requirement-modifications). Use when the policy references Layer 2 control catalogs. Use `assessment-requirement-modifications` to tailor how assessment requirements are applied (add, modify, remove, replace, override).
+- **`guidance`** — List of guidance imports used when the policy aligns to Layer 1 guidance catalogs. Each entry: reference-id (match metadata.mapping-references), optional exclusions and constraints.
+- **`catalogs`** — List of catalog imports used when the policy references Layer 2 control catalogs. Use assessment-requirement-modifications to tailor how assessment requirements are applied (add, modify, remove, replace, override).
 
 Ensure each `reference-id` appears in `metadata.mapping-references`.
 
@@ -162,7 +167,7 @@ imports:
 
 ### Step 5: Implementation plan (optional)
 
-Add `implementation-plan` with `evaluation-timeline` and `enforcement-timeline` (each with `start` as an ISO 8601 datetime, optional `end`, and `notes`). Optionally add `notification-process` (string).
+Add `implementation-plan` with `evaluation-timeline` and `enforcement-timeline`. Each has `start` (ISO 8601 datetime), optional `end`, and `notes`. Optionally add `notification-process` (string).
 
 **Example (YAML):**
 
@@ -180,7 +185,7 @@ implementation-plan:
 
 ### Step 6: Risks (optional)
 
-Add `risks` with `mitigated` (list of mappings to risk catalogs/entries) and/or `accepted` (list of accepted-risk entries: risk reference, optional scope, optional justification).
+Add `risks` with `mitigated` (mappings to risk catalogs/entries) and/or `accepted` (accepted-risk entries with risk reference, optional scope, optional justification).
 
 **Example (YAML):**
 
@@ -200,7 +205,7 @@ risks:
 
 ### Step 7: Adherence
 
-Define `adherence` with at least one of: `evaluation-methods`, `assessment-plans`, `enforcement-methods`, or `non-compliance`. For methods use type (manual, behavioral, automated, autoremediation, gate), optional description, optional executor. For assessment-plans use requirement-id, frequency, evaluation-methods, and optionally evidence-requirements and parameters. Set `non-compliance` to a string as needed.
+Define `adherence` with at least one of: `evaluation-methods`, `assessment-plans`, `enforcement-methods`, or `non-compliance`. Methods use type (manual, behavioral, automated, autoremediation, gate) and optional description and executor. Assessment-plans use requirement-id, frequency, evaluation-methods, and optionally evidence-requirements and parameters. Set `non-compliance` to a string as needed.
 
 **Example (YAML):**
 

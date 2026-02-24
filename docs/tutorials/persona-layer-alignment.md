@@ -1,6 +1,11 @@
+---
+layout: page
+title: OSSF Toolbelt Personas ↔ Gemara Layer Alignment
+---
+
 # OSSF Toolbelt Personas ↔ Gemara Layer Alignment
 
-This document maps [OSSF Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas) to the [Gemara](https://gemara.openssf.org/) seven-layer model. **The primary step-by-step content lives in the tutorials** ([Guidance Catalog Guide](guidance/guidance-tutorial.md), [Threat Assessment](controls/threat-assessment.md) and [Control Catalog Guide](controls/control-catalog-guide.md), [Organization Risk & Policy](policy/organizational-policy.md)); this narrative explains who typically writes or ingests each layer's artifacts and how the personas align with those flows, so the tutorials and the narrative stay consistent.
+This document maps [OSSF Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas) to the [Gemara](https://gemara.openssf.org/) seven-layer model. **The primary step-by-step content lives in the tutorials** ([Guidance Catalog Guide](guidance/guidance-guide.md), [Threat Assessment](controls/threat-assessment-guide.md) and [Control Catalog Guide](controls/control-catalog-guide.md), [Organization Risk & Policy](policy/policy-guide.md)); this narrative explains who typically writes or ingests each layer's artifacts and how the personas align with those flows, so the tutorials and the narrative stay consistent.
 
 ---
 
@@ -20,7 +25,7 @@ For each definition layer, **who writes** the Gemara artifact, **who ingests** i
 
 **Personas ingesting Layer 1 artifacts:** **Guinevere** (as GRC lead) when she pulls Layer 1 into Layer 2—control catalogs reference guidance via **guideline-mappings**. She uses Layer 1 to ensure policies and controls align to standards.
 
-**Outputs:** Guidance catalogs (guidelines, families, mapping-references to OWASP, NIST, etc.). Tutorial: [Guidance Catalog Guide](guidance/guidance-tutorial.md).
+**Outputs:** Guidance catalogs (guidelines, families, mapping-references to OWASP, NIST, etc.). Tutorial: [Guidance Catalog Guide](guidance/guidance-guide.md).
 
 ### Layer 2: Threats and Controls
 
@@ -37,7 +42,7 @@ For each definition layer, **who writes** the Gemara artifact, **who ingests** i
 | **Guinevere** | Uses Pang’s **threat-informed controls** to support **risk mitigation**. She needs to know that a “Data Breach” has $10M impact and that Pang’s controls reduce likelihood. Threats are mitigated by controls, which support mitigation of **associated risks** in Layer 3. |
 | **Carl** (the Consumer) — vendor/manufacturer ([Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas)) | **Ingests** threat and control catalogs (e.g. OSPS Baseline, CCC) to **understand the security posture** of the open source software his project consumes. He wants the software he's building to **comply with regulatory requirements** and **manage risks associated with consumption**. Layer 2 control catalogs and evaluation outputs (e.g. Layer 5 Pass/Fail) give him a clear view of what to satisfy. |
 
-**Outputs:** **Threat catalog** (specific ways capabilities can be misused or exploited); **Control catalog** (defense mechanisms based on what could go wrong). Tutorials: [Threat Assessment Guide](controls/threat-assessment.md), [Control Catalog Guide](controls/control-catalog-guide.md).
+**Outputs:** **Threat catalog** (specific ways capabilities can be misused or exploited); **Control catalog** (defense mechanisms based on what could go wrong). Tutorials: [Threat Assessment Guide](controls/threat-assessment-guide.md), [Control Catalog Guide](controls/control-catalog-guide.md).
 
 ### Layer 3: Risk and Policy
 
@@ -54,7 +59,7 @@ For each definition layer, **who writes** the Gemara artifact, **who ingests** i
 | **Governance lead** (with expertise in scope / assessment plan) | Uses **Layer 1** vectors and guidance, is aware of **technology scope** and **evaluation methods**, and ensures **adherence** (how often assessments and evaluations run). |
 | **Grear** (Data Governance Analyst) | Her organization must meet **GDPR and HIPAA**. She uses the policy’s **adherence** and **assessment plan** to define how often assessments and evaluations occur and to enable compliance. |
 
-**Outputs:** Policy document (scope, imports, risks, adherence, implementation-plan). Tutorial: [Organization Risk & Policy](policy/organizational-policy.md).
+**Outputs:** Policy document (scope, imports, risks, adherence, implementation-plan). Tutorial: [Organization Risk & Policy](policy/policy-guide.md).
 
 ---
 
@@ -190,7 +195,7 @@ For primary/supporting personas by type, see [Persona ↔ Layer Alignment](#pers
 - **Layer 1 schema**: [layer-1.cue](../../layer-1.cue) (guidance catalogs, guidelines, catalog type, vector-mappings).
 - **Layer 2 schema**: [layer-2.cue](../../layer-2.cue) (threat catalogs, control catalogs). See also **projects using Gemara at Layer 2**: [FINOS CCC](https://www.finos.org/common-cloud-controls-project), [OSPS Baseline](https://baseline.openssf.org/).
 - **Layer 3 schema**: [layer-3.cue](../../layer-3.cue) (policy documents: scope, imports, adherence, etc.).
-- **Tutorials**: [Guidance Catalog Guide](guidance/guidance-tutorial.md) (Layer 1), [Threat Assessment](controls/threat-assessment.md) and [Control Catalog Guide](controls/control-catalog-guide.md) (Layer 2).
+- **Tutorials**: [Guidance Catalog Guide](guidance/guidance-guide.md) (Layer 1), [Threat Assessment](controls/threat-assessment-guide.md) and [Control Catalog Guide](controls/control-catalog-guide.md) (Layer 2).
 - **Test-data**: `good-ccc.yaml`, `good-osps.yml` (Layer 2), `pvtr-baseline-scan.yaml` (Layer 5). For Layer 3, use the [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) schema as the source of truth (test-data policy examples may not be up-to-date).
 - **OSSF Toolbelt personas**: [personas](https://github.com/ossf/toolbelt/tree/main/personas) (README + softwaredeveloper, securityengineer, opensourcepro, dataoperationspractitioner, infrastructureandplatformengineer).
 - **Tutorial primary personas (canonical descriptions)**:

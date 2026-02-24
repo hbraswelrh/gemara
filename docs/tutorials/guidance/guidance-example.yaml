@@ -1,6 +1,6 @@
 # Minimal Secure Software Development Guidance
 # Conforms to Gemara Layer 1 #GuidanceCatalog (layer-1.cue).
-# See guidance-tutorial.md for the full guide.
+# See guidance-guide.md for the full guide.
 
 title: Secure Software Development Guidance
 type: Best Practice
@@ -31,7 +31,6 @@ guidelines:
       Use digest-based or otherwise immutable references for container images
       to prevent tampering and ensure repeatable deployments.
     family: ORG.SSD.FAM01
-    state: active
     recommendations:
       - Prefer pull-by-digest over tags for production.
       - Pin base image digests in Dockerfiles or equivalent.

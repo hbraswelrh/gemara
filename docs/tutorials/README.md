@@ -8,20 +8,20 @@
 
 ## What You'll Build
 
-* **Vectors & Guidance** — [Guidance Catalog Guide](guidance/guidance-tutorial.md): create a guidance catalog (guidelines, families, mapping-references) that conforms to Layer 1.
-* **Threats & Controls** — [Threat Assessment](controls/threat-assessment.md) and [Control Catalog Guide](controls/control-catalog-guide.md): create threat and control catalogs that conform to Layer 2.
-* **Risk & Policy** — [Organization Risk & Policy](policy/organizational-policy.md): create a policy document (scope, imports, adherence, risks) that conforms to Layer 3.
-* **Intent & Behavior Evaluation** — *(forthcoming)*
+* **Vectors & Guidance** — [Guidance Catalog Guide](guidance/guidance-guide.md): create a guidance catalog (guidelines, families, mapping-references) that conforms to Layer 1.
+* **Threats & Controls** — [Threat Assessment](controls/threat-assessment-guide.md) and [Control Catalog Guide](controls/control-catalog-guide.md): create threat and control catalogs that conform to Layer 2.
+* **Risk & Policy** — [Organization Risk & Policy](policy/policy-guide.md): create a policy document (scope, imports, adherence, risks) that conforms to Layer 3.
+* **Intent & Behavior Evaluation** — *(wip)*
 
-If you prefer to follow the same steps through a **persona** (who typically writes each layer), see [Persona–Layer Alignment](persona-layer-alignment.md): **Sachiko** (Layer 1), **Pang** (Layer 2), **Guinevere** (Layer 3), with links to [persona-based guides](guidance/guidance-tutorial-persona.md), [threat/control persona](controls/threat-and-control-tutorial-persona.md), and [policy persona](policy/organizational-policy-tutorial-persona.md).
+If you prefer to follow the same steps through a **persona** (who typically writes each layer), see [Persona–Layer Alignment](persona-layer-alignment.md): **Sachiko** (Layer 1), **Pang** (Layer 2), **Guinevere** (Layer 3), with links to [persona-based guides](guidance/guidance-tutorial-persona.md), [threat/control persona](controls/threat-and-control-tutorial-persona.md), and [policy persona](policy/policy-tutorial-persona.md).
 
 ## Who Are You?
 
-* **Product Security Engineer** — threat and control catalogs → [Threat Assessment](controls/threat-assessment.md), [Control Catalog Guide](controls/control-catalog-guide.md) (or as [Pang](controls/threat-and-control-tutorial-persona.md)).
-* **GRC / Security Governance Lead** — policy and risk → [Organization Risk & Policy](policy/organizational-policy.md) (or as [Guinevere](policy/organizational-policy-tutorial-persona.md)); guidance for distributed teams → [Guidance Catalog Guide](guidance/guidance-tutorial.md).
-* **Solution Architect** — secure-by-design guidance → [Guidance Catalog Guide](guidance/guidance-tutorial.md) (or as [Sachiko](guidance/guidance-tutorial-persona.md)).
-* **Risk Manager / Compliance Analyst** — policy and adherence → [Organization Risk & Policy](policy/organizational-policy.md).
-* **Vendor / Manufacturer (consumer of OSS)** — understand security posture of dependencies, comply with regulations, manage consumption risk → [Threat Assessment](controls/threat-assessment.md), [Control Catalog Guide](controls/control-catalog-guide.md); see [Carl the Consumer](persona-layer-alignment.md#layer-2-threats-and-controls) in the [Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas).
+* **Product Security Engineer** — threat and control catalogs → [Threat Assessment](controls/threat-assessment-guide.md), [Control Catalog Guide](controls/control-catalog-guide.md) (or as [Pang](controls/threat-and-control-tutorial-persona.md)).
+* **GRC / Security Governance Lead** — policy and risk → [Organization Risk & Policy](policy/policy-guide.md) (or as [Guinevere](policy/policy-tutorial-persona.md)); guidance for distributed teams → [Guidance Catalog Guide](guidance/guidance-guide.md).
+* **Solution Architect** — secure-by-design guidance → [Guidance Catalog Guide](guidance/guidance-guide.md) (or as [Sachiko](guidance/guidance-tutorial-persona.md)).
+* **Risk Manager / Compliance Analyst** — policy and adherence → [Organization Risk & Policy](policy/policy-guide.md).
+* **Vendor / Manufacturer (consumer of OSS)** — understand security posture of dependencies, comply with regulations, manage consumption risk → [Threat Assessment](controls/threat-assessment-guide.md), [Control Catalog Guide](controls/control-catalog-guide.md); see [Carl the Consumer](persona-layer-alignment.md#layer-2-threats-and-controls) in the [Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas).
 
 For who *writes* vs. who *ingests* each layer (user journeys), see [Tutorial user journeys](persona-layer-alignment.md#tutorial-user-journeys-writing-vs-ingesting).
 

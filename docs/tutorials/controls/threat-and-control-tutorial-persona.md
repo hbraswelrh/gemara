@@ -1,12 +1,12 @@
-<!-- ---
+---
+layout: page
 title: Threat Assessment & Control Catalog Guide (Pang Persona)
 description: Layer 2 threat and control catalog tutorials through the lens of Pang the Product Security Engineer
-tags: ["Inspector", "Layer 2", "Persona"]
---- -->
+---
 
 # Threat Assessment & Control Catalog — As Pang (Layer 2 Persona)
 
-This tutorial presents **Layer 2: Threats and Controls** through the lens of the best-fit persona for authoring or adopting threat catalogs and control catalogs. Follow the same steps as in the [Threat Assessment Guide](threat-assessment.md) and the [Control Catalog Guide](control-catalog-guide.md); here we frame them as **Pang the Product Security Engineer** would.
+This tutorial presents **Layer 2: Threats and Controls** through the lens of the best-fit persona for authoring or adopting threat catalogs and control catalogs. Follow the same steps as in the [Threat Assessment Guide](threat-assessment-guide.md) and the [Control Catalog Guide](control-catalog-guide.md); here we frame them as **Pang the Product Security Engineer** would.
 
 ## Persona: Pang the Product Security Engineer
 
@@ -26,7 +26,7 @@ This tutorial presents **Layer 2: Threats and Controls** through the lens of the
 
 ### Part 1: Threat catalog
 
-Use the full steps in the [Threat Assessment Guide](threat-assessment.md). While you do:
+Use the full steps in the [Threat Assessment Guide](threat-assessment-guide.md). While you do:
 
 1. **Step 0 – Scope**  
    Pick the component or technology you’re securing (e.g. container management tool, SEC.SLAM.CM). Same scope will be reused for the control catalog.
@@ -80,7 +80,7 @@ Use the full steps in the [Control Catalog Guide](control-catalog-guide.md). Whi
 ## What’s Next
 
 - Use the control catalog in **Layer 5 evaluations** (e.g. Privateer) to record which assessment requirements passed or failed.
-- Let **Guinevere** (Layer 3) reference your controls in **policy documents**: [Organizational Policy Tutorial](../policy/organizational-policy.md) and the [Layer 3 persona tutorial](../policy/organizational-policy-tutorial-persona.md).
-- Optionally add **guideline-mappings** on controls to link back to **Layer 1 guidance** (Sachiko’s catalogs): [Guidance Catalog Guide](../guidance/guidance-tutorial.md) and [Layer 1 persona tutorial](../guidance/guidance-tutorial-persona.md).
+- Let **Guinevere** (Layer 3) reference your controls in **policy documents**: [Organizational Policy Tutorial](../policy/policy-guide.md) and the [Layer 3 persona tutorial](../policy/policy-tutorial-persona.md).
+- Optionally add **guideline-mappings** on controls to link back to **Layer 1 guidance** (Sachiko’s catalogs): [Guidance Catalog Guide](../guidance/guidance-guide.md) and [Layer 1 persona tutorial](../guidance/guidance-tutorial-persona.md).
 
 See the [Persona–Layer Alignment](../persona-layer-alignment.md) for how Pang maps to Layer 2.
