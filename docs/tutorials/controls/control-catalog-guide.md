@@ -17,7 +17,7 @@ In technical terms:
 * **Families** group controls by theme (e.g., supply chain, access control).
 * **Threat mappings** link each control to the threat(s) it mitigates, connecting your control catalog to your threat catalog.
 
-This exercise produces a structured, machine-readable catalog you can validate with the [Gemara Layer 2 schema](https://gemara.openssf.org/schema/layer-2.html) (`#ControlCatalog` in `layer-2.cue`).
+This exercise produces a structured, machine-readable catalog you can validate with the [Gemara Layer 2 schema](https://gemara.openssf.org/schema/layer-2.html) (see `layer-2.cue`).
 
 ## Prerequisites
 
@@ -77,7 +77,7 @@ metadata:
 
 **Families** group controls by theme. The Layer 2 schema requires at least one family when the catalog defines its own `controls`. Each control’s `family` field must match the `id` of one of these groups.
 
-Required fields for each family (schema: `#Group` in `base.cue`):
+Required fields for each family (see `base.cue`):
 
 | Field         | Required | Description                                  |
 |---------------|----------|----------------------------------------------|
@@ -110,7 +110,7 @@ imported-controls:
         remarks: Image signing and verification
 ```
 
-**Option B — Define your own controls:** For controls specific to your scope, define them under `controls`. Required and common fields (schema: `#Control` in `layer-2.cue`):
+**Option B — Define your own controls:** For controls specific to your scope, define them under `controls`. Required and common fields (see `layer-2.cue`):
 
 | Field                    | Required | Description                                                                 |
 |--------------------------|----------|-----------------------------------------------------------------------------|
@@ -122,7 +122,7 @@ imported-controls:
 | `threat-mappings`        | No       | Links to threat catalog(s) and threat IDs this control mitigates            |
 | `state`                  | No       | Lifecycle: `active` (default), `draft`, `deprecated`, `retired`             |
 
-Each **assessment requirement** (schema: `#AssessmentRequirement`) must have:
+Each **assessment requirement** (see `layer-2.cue`) must have:
 
 | Field           | Required | Description                                                                 |
 |-----------------|----------|-----------------------------------------------------------------------------|
@@ -163,7 +163,7 @@ controls:
 
 ### Step 4: Validate Against the Layer 2 Schema
 
-The final catalog must conform to `#ControlCatalog` in the Gemara Layer 2 schema (`layer-2.cue`). Validate with CUE:
+The final catalog must conform to the Gemara Layer 2 schema in `layer-2.cue`. Validate with CUE:
 
 **Validation commands:**
 

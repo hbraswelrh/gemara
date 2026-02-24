@@ -67,7 +67,7 @@ metadata:
 
 ### Step 2: Define Families
 
-**Families** group guidelines by theme. The Layer 1 schema requires at least one family when the catalog defines `guidelines`. Each guideline’s `family` field must match the `id` of one of these groups (`#Group`: id, title, description).
+**Families** group guidelines by theme. The Layer 1 schema requires at least one family when the catalog defines `guidelines`. Each guideline’s `family` field must match the `id` of one of these groups (id, title, description).
 
 **Example (YAML):**
 
@@ -80,7 +80,7 @@ families:
 
 ### Step 3: Define Guidelines
 
-**Guidelines** are the core content. Required fields for each guideline (`#Guideline` in `layer-1.cue`):
+**Guidelines** are the core content. Required fields for each guideline (see `layer-1.cue`):
 
 | Field       | Required | Description                                              |
 |-------------|----------|----------------------------------------------------------|
@@ -114,7 +114,7 @@ guidelines:
 
 ### Step 4: Validate
 
-The catalog must conform to `#GuidanceCatalog` in the Gemara Layer 1 schema (`layer-1.cue`). Validate with CUE:
+The catalog must conform to the Gemara Layer 1 schema in `layer-1.cue`. Validate with CUE:
 
 **Validation commands:**
 
