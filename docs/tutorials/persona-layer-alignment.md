@@ -1,22 +1,79 @@
 # OSSF Toolbelt Personas ↔ Gemara Layer Alignment
 
-This document maps [OSSF Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas) to the [Gemara](https://gemara.openssf.org/) seven-layer model, using the project’s tutorials, test-data, and schemas to ground the analysis.
+This document maps [OSSF Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas) to the [Gemara](https://gemara.openssf.org/) seven-layer model. **The primary step-by-step content lives in the tutorials** ([Guidance Catalog Guide](guidance/guidance-tutorial.md), [Threat Assessment](controls/threat-assessment.md) and [Control Catalog Guide](controls/control-catalog-guide.md), [Organization Risk & Policy](policy/organizational-policy.md)); this narrative explains who typically writes or ingests each layer's artifacts and how the personas align with those flows, so the tutorials and the narrative stay consistent.
+
+---
+
+## Tutorial user journeys (writing vs. ingesting)
+
+For each definition layer, **who writes** the Gemara artifact, **who ingests** it, and **why** are made explicit below. Detail by persona type is in [Persona ↔ Layer Alignment](#persona--layer-alignment) and [Mapping by Persona Type](#mapping-by-persona-type-detail).
+
+### Layer 1: Vectors and Guidance
+
+**Personas writing Layer 1 artifacts:** Regulators, governing bodies, or authors of organization-specific guidance for internal reuse (e.g. translating existing controls from a spreadsheet into Gemara Layer 1 for widespread usage and compatibility—see use-cases such as CNCF CNSCC).
+
+| Persona | Why / how |
+|---------|-----------|
+| **Guinevere** (GRC Security Governance Lead) — regulator/governing-body | Bridges policy and engineering. She has a unique internal use-case: developing guidance for use across **globally distributed teams**. She can author or adopt guidance catalogs that feed into policy and Layer 2. |
+| **Grear** (GRC Data Governance Analyst) — regulator/governing-body | Works in a **government agency**; focuses on data/ML against **privacy regulations** (GDPR, HIPAA), traceability, and approvals. Use when guidance is **regulatory or governing-body driven** (e.g. data protection, public sector). |
+| **Sachiko** (Solution Architect) — authoring or adopting guidance catalogs | “The person people go to when something needs to scale securely.” She shares **reusable secure-by-design blueprints**, aligns architecture with **SLSA and SAMM**, and can create guidance for **secure ML architecture** that Layer 2 can reference (e.g. guideline-mappings) and that maps to external frameworks. |
+
+**Personas ingesting Layer 1 artifacts:** **Guinevere** (as GRC lead) when she pulls Layer 1 into Layer 2—control catalogs reference guidance via **guideline-mappings**. She uses Layer 1 to ensure policies and controls align to standards.
+
+**Outputs:** Guidance catalogs (guidelines, families, mapping-references to OWASP, NIST, etc.). Tutorial: [Guidance Catalog Guide](guidance/guidance-tutorial.md).
+
+### Layer 2: Threats and Controls
+
+**Personas writing Layer 2 artifacts:** **Pang** (Product Security Engineer).
+
+| Persona | Why / how |
+|---------|-----------|
+| **Pang** | Expert security engineer who collaborates with product engineers to perform a **secure architecture review** and **threat assessment**: identify **capabilities** and their **associated threats**. He cares how a system can be broken and what **technical controls** can prevent that. He outlines controls that mitigate the threats from the threat assessment and uses the **[FINOS CCC](https://www.finos.org/common-cloud-controls-project) Core** reusable catalog whenever possible to import capabilities, threats, or controls instead of redefining them. |
+
+**Personas ingesting Layer 2 artifacts:**
+
+| Persona | Why |
+|---------|-----|
+| **Guinevere** | Uses Pang’s **threat-informed controls** to support **risk mitigation**. She needs to know that a “Data Breach” has $10M impact and that Pang’s controls reduce likelihood. Threats are mitigated by controls, which support mitigation of **associated risks** in Layer 3. |
+| **Carl** (the Consumer) — vendor/manufacturer ([Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas)) | **Ingests** threat and control catalogs (e.g. OSPS Baseline, CCC) to **understand the security posture** of the open source software his project consumes. He wants the software he's building to **comply with regulatory requirements** and **manage risks associated with consumption**. Layer 2 control catalogs and evaluation outputs (e.g. Layer 5 Pass/Fail) give him a clear view of what to satisfy. |
+
+**Outputs:** **Threat catalog** (specific ways capabilities can be misused or exploited); **Control catalog** (defense mechanisms based on what could go wrong). Tutorials: [Threat Assessment Guide](controls/threat-assessment.md), [Control Catalog Guide](controls/control-catalog-guide.md).
+
+### Layer 3: Risk and Policy
+
+**Personas writing Layer 3 artifacts:** **Guinevere** (GRC Security Governance Lead). A **Compliance** persona may assist with **assessment plan** and **scope**.
+
+| Persona | Why / how |
+|---------|-----------|
+| **Guinevere** | She is the **risk manager** who maps **threats to business impact**. She contextualizes Pang’s Layer 2 outputs into a **risk register**: she ingests the threat catalog, assigns **business impact** and **likelihood** to turn technical threats into **informed risks**. By mapping risks to the organization’s **risk appetite**, she defines **policy**—which risks are **accepted** vs **mitigated** (triggering enforcement of Pang’s controls)—and establishes **assessment requirements** for mitigations. Pang’s automation can use this policy to pull in and validate the right security controls in the scoped environment. |
+
+**Personas ingesting Layer 3 artifacts:**
+
+| Persona | Why |
+|---------|-----|
+| **Governance lead** (with expertise in scope / assessment plan) | Uses **Layer 1** vectors and guidance, is aware of **technology scope** and **evaluation methods**, and ensures **adherence** (how often assessments and evaluations run). |
+| **Grear** (Data Governance Analyst) | Her organization must meet **GDPR and HIPAA**. She uses the policy’s **adherence** and **assessment plan** to define how often assessments and evaluations occur and to enable compliance. |
+
+**Outputs:** Policy document (scope, imports, risks, adherence, implementation-plan). Tutorial: [Organization Risk & Policy](policy/organizational-policy.md).
+
+---
+
+## Schema and validation
+
+- **Schemas:** Tutorials conform to **layer-1.cue** (Guidance Catalog), **layer-2.cue** (Threat/Control Catalog), **layer-3.cue** (Policy). Validation uses the corresponding CUE definition (e.g. `cue vet -c -d '#GuidanceCatalog' …`).
+- **Personas:** Names and roles are from the [OSSF Toolbelt personas](https://github.com/ossf/toolbelt/tree/main/personas); primary tutorial personas are Sachiko (L1), Pang (L2), Guinevere (L3).
 
 ---
 
 ## Tutorial primary personas (for coherence)
 
-To keep the tutorials consistent and easy to follow, **one named persona is designated as the primary lens for each definition layer** that the tutorials cover:
+| Layer | Primary persona | Role |
+|-------|------------------|------|
+| **Layer 1** | **Sachiko** | Solution Architect; guidance catalogs for org/domain reuse. For regulator context: **Grear** or **Regulated Ragnar**. |
+| **Layer 2** | **Pang** | Product Security Engineer; threat and control catalogs (assessment requirements). |
+| **Layer 3** | **Guinevere** | GRC / Security Governance Lead; policy (scope, imports, adherence, risks). |
 
-| Layer | Primary tutorial persona | Role (Toolbelt) | Use in tutorials |
-|-------|--------------------------|------------------|-------------------|
-| **Layer 1 – Guidance** | **Sachiko** (Sachiko the Solution Architect) | Principal Software Architect; defines secure design patterns, blueprints, and alignment with frameworks (SLSA, SAMM); shares internal guidance for reuse. | Reference Sachiko when authoring or adopting **guidance catalogs** (vectors, guidelines, families) for org-specific or domain-specific reuse. Example: *“As Sachiko, you’re capturing secure-by-design guidelines and mapping them to OWASP/NIST so teams can reuse this guidance internally.”* For regulator/governing-body contexts, use **Grear** or **Regulated Ragnar** (see Layer 1 section below). |
-| **Layer 2 – Controls** | **Pang** (Pang the Product Security Engineer) | Product Security Engineer; security champion embedded in engineering; bakes controls into backlogs, uses SLSA/SAMM, integrates tooling with CI/CD. | Reference Pang when authoring or adopting **threat catalogs** and **control catalogs** (threat assessment, control catalog guide). Example: *“As Pang, you’re defining controls with assessment requirements so teams can be evaluated against them.”* |
-| **Layer 3 – Policy** | **Guinevere** (Guinevere GRC – Security Governance Lead) | Security Policy / GRC lead; defines “secure enough,” policy-as-code, baselines; aligns internal policy with controls and risk. | Reference Guinevere when authoring or consuming **policy documents** that reference risks and controls (per `layer-3.cue`: scope, imports, adherence, etc.). Example: *“As Guinevere, you’re turning organizational risk appetite and control selections into a policy document with scope, imports, and adherence.”* |
-
-Use **Sachiko** for Layer 1 (Guidance), **Pang** for Layer 2 (Controls), and **Guinevere** for Layer 3 (Policy) consistently across the guidance, control-catalog, threat-assessment, and policy tutorials so readers have a single, coherent persona thread.
-
----
+Who writes vs. ingests each layer: see [Tutorial user journeys](#tutorial-user-journeys-writing-vs-ingesting) above.
 
 ## Gemara Layers (Summary)
 
@@ -30,36 +87,9 @@ Use **Sachiko** for Layer 1 (Guidance), **Pang** for Layer 2 (Controls), and **G
 | **6** | Enforcement | Preventive (gates) and Remediative (corrective) actions | Platform/infra, security, CI/CD |
 | **7** | Audit & Monitoring | Audit logs, continuous compliance monitoring | Auditors, CISO, compliance |
 
-**Projects and tooling using Gemara (Layer 2):** [FINOS Common Cloud Controls](https://www.finos.org/common-cloud-controls-project) (CCC) and the [Open Source Project Security Baseline](https://baseline.openssf.org/) (OSPS Baseline) are projects that produce Layer 2 artifacts (control catalogs and, for CCC, threat catalogs) conforming to the Gemara schemas. The tutorials and test-data reference them (e.g. `good-ccc.yaml`, `good-osps.yml`). [Privateer](https://github.com/privateerproj/privateer) (Layer 5) evaluates repositories against the OSPS Baseline.
+For primary/supporting personas by type, see [Persona ↔ Layer Alignment](#persona--layer-alignment) and [Mapping by Persona Type](#mapping-by-persona-type-detail) below.
 
----
-
-## Layer 1: Vectors and Guidance — persona fit
-
-### Consistency with the Layer 1 schema and model
-
-The alignment below is consistent with the [Layer 1 model](https://gemara.openssf.org/) and the **layer-1.cue** schema:
-
-- **Why Layer 1 exists:** The need for generic, high-level risk assessment is often surfaced by factors or requirements **far removed from the scope of the activity being assessed**. Sometimes the need is made clear by a **Rule** (e.g. legislation); other times it is a **precursor for Controls** in a new technology category not yet fully assessed (e.g. artificial intelligence). Personas that author or adopt Layer 1 guidance often act in response to one or both of these drivers (regulators/governing bodies → Rules; orgs and industry → new tech or unique use-cases).
-
-- **Vectors** (referenced by guidelines via `vector-mappings` in the schema): Focus on the **opportunity for mistake or malice**, not on technological intricacies. They can be documented independently or in a catalog and published as standalone artifacts or alongside related Guidance (e.g. MITRE ATT&CK techniques). The schema allows guidelines to link to vectors via `"vector-mappings"` in `#Guideline`.
-
-- **Guidance / Guidelines:** The constituent parts of Guidance are **guidelines**, which do not typically stand alone and are most often published in a **Guidance Catalog** (`#GuidanceCatalog`). Each guideline includes explanatory context and recommendations for **designing optimal outcomes without foreknowledge of implementation details** (per the schema comment and model). Catalogs have a **type** (`#GuidanceType`): Standard, Regulation, Best Practice, or Framework—aligning with legislation (Regulation), standards bodies (Standard), and industry or internal use (Best Practice, Framework).
-
-- **Who authors Guidance:** Guidance may be written **internally for unique circumstances** or by **industry groups, government agencies, or international standards bodies** (e.g. OWASP, NIST, HIPAA, GDPR, CRA, PCI, ISO). The personas below map to these authors: regulators/governing bodies (Regulation/Standard); org-specific reuse (Best Practice/Framework).
-
-### Personas for Layer 1
-
-Layer 1 artifacts (vectors, guidance catalogs) are authored or adopted by **regulators**, **governing bodies**, or **organizations for unique use-cases** so that guidance can be reused internally or across an ecosystem.
-
-Best-fit OpenSSF Toolbelt personas for Layer 1, by lens:
-
-| Lens | Persona(s) | Rationale |
-|------|------------|-----------|
-| **Regulators / governing bodies** | **Grear** (Grear GRC – Data Governance Analyst), **Regulated Ragnar** (Open Source Pro) | **Grear** works in a government agency; ensures data/ML respects privacy regulations (GDPR, HIPAA) and maintains traceability. She authors or adopts **guidance** that reflects regulatory and governing-body requirements. **Regulated Ragnar** operates in a regulated industry and must align to regulator and governing-body guidance; he often translates external guidance into org-specific adoption. |
-| **Organization-specific guidance (unique use-case, internal reuse)** | **Sachiko** (Solution Architect), **Guinevere** (GRC), **Olga** (OSPO), **Daniel / Dibby** (Data Ops) | **Sachiko** defines secure design patterns and blueprints, aligns with SLSA/SAMM, and shares internal guidance for reuse—ideal for authoring a **guidance catalog** with families and guideline-mappings. **Guinevere** defines baselines and “secure enough”; she can author or adopt guidance catalogs that feed into policy (Layer 3). **Olga** (OSPO) curates OpenSSF Security Baseline and org standards; adopts/adapts guidance for the org. **Daniel** (Data Scientist) and **Dibby** (Data Engineer) author or adopt domain-specific guidance (e.g. secure ML, model cards, pipeline provenance) for internal reuse. |
-
-**Tutorial primary for Layer 1:** Use **Sachiko** when the tutorial focuses on **authoring or adopting a guidance catalog** for org-specific or domain-specific reuse (e.g. secure development, supply chain, or ML). Use **Grear** or **Regulated Ragnar** when the scenario is **regulator- or governing-body-aligned** guidance (e.g. data protection, regulated industry).
+**Projects and tooling using Gemara (Layer 2):** [FINOS CCC](https://www.finos.org/common-cloud-controls-project) (CCC), [OSPS Baseline](https://baseline.openssf.org/), and [Privateer](https://github.com/privateerproj/privateer) (Layer 5). See [References](#references) for schema and tutorial links.
 
 ---
 
@@ -70,7 +100,7 @@ Best-fit OpenSSF Toolbelt personas for Layer 1, by lens:
 | Persona | Best-fit Gemara layer(s) | Rationale |
 |---------|-------------------------|-----------|
 | **Security Engineer** (Pang, Guinevere, Finn) | **Layer 2, Layer 3, Layer 5** | Defines and consumes **controls** (threat-informed, assessment requirements); aligns policy with standards (Layer 3); runs or interprets **evaluations** (config scans, pentests). Test-data: `good-ccc.yaml`, `good-osps.yml`, `pvtr-baseline-scan.yaml`. |
-| **Open Source Professional** (Siddharth, Carl, OSPO, Regulated Ragnar) | **Layer 2, Layer 3** | **Consumers/suppliers** need to assess OSS posture (Scorecard, SLSA, S2C2F) and meet regulatory/compliance requirements. They consume **control catalogs** (e.g. OSPS Baseline, CCC) and **policies** that reference them (Layer 2: `layer-2.cue`; Layer 3: `layer-3.cue`). |
+| **Open Source Professional** (Siddharth, Carl, OSPO, Regulated Ragnar) | **Layer 2, Layer 3** | **Consumers/suppliers** (e.g. **Carl the Consumer** — vendor/manufacturer from [Toolbelt](https://github.com/ossf/toolbelt/tree/main/personas)) need to assess OSS posture (Scorecard, SLSA, S2C2F) and meet regulatory/compliance requirements. They consume **control catalogs** (e.g. OSPS Baseline, CCC) and **policies** that reference them (Layer 2: `layer-2.cue`; Layer 3: `layer-3.cue`). |
 | **Infrastructure/Platform Engineer** (Chinmay, Ophelia) | **Layer 2, Layer 5, Layer 6** | Build and operate systems that **implement controls** (e.g. image integrity, supply chain); run **evaluations** (config scans, pipeline checks) and **enforcement** (gates, remediation). Tutorials: threat assessment → control catalog → validation. |
 | **Data Operations Practitioner** (Daniel, Dibby, Grear GRC) | **Layer 1, Layer 2, Layer 3** | **Data governance** aligns with **guidance** (privacy/ML standards), **controls** (data protection, lineage), and **policy** (GDPR, HIPAA). Personas explicitly want schemas, policy-as-code, and auditability—all Gemara concerns. |
 
@@ -105,9 +135,9 @@ Best-fit OpenSSF Toolbelt personas for Layer 1, by lens:
   - Needs to understand upstream OSS and comply with regulations; uses Scorecard, SLSA, S2C2F, OSV, OpenVEX.  
   - **Layer 2**: Consumes **threat/control catalogs** (e.g. OSPS, CCC) to assess and communicate posture; **Layer 3**: Organizational **policies** that reference those controls.
 
-- **Carl (Consumer)**  
-  - Wants scalable assessment of OSS security and compliance.  
-  - **Layer 2**: Consumes **control catalogs** and evaluation outputs; **Layer 5**: Evaluation results (e.g. Pass/Fail per control) as in `pvtr-baseline-scan.yaml`.
+- **Carl (Consumer)** — vendor/manufacturer ([Toolbelt](https://github.com/ossf/toolbelt/tree/main/personas))  
+  - Must **understand the security posture** of the open source software his project consumes; wants the software he's building to **comply with regulatory requirements** and **manage risks associated with consumption**.  
+  - **Layer 2**: Consumes **control catalogs** and threat catalogs (e.g. OSPS, CCC) to assess posture; **Layer 5**: Evaluation results (e.g. Pass/Fail per control) as in `pvtr-baseline-scan.yaml`.
 
 - **Regulated Ragnar**  
   - Strong **Layer 3** (policy, risk) and **Layer 2** (controls that satisfy regulators).
@@ -121,8 +151,6 @@ Best-fit OpenSSF Toolbelt personas for Layer 1, by lens:
 - **Ophelia (IT Infrastructure Engineer)**  
   - CI/CD, Terraform, Argo; wants reusable, secure patterns.  
   - Same layer pattern: **controls** in catalogs, **evaluation** in pipelines, **enforcement** on non-compliance.
-
-Tutorials (threat assessment → control catalog) and test-data (`good-ccc.yaml`, `good-osps.yml`) describe exactly the kind of catalogs these personas consume or help implement.
 
 ### 4. Data Operations Practitioner → Layers 1, 2, 3
 
@@ -146,8 +174,6 @@ Tutorials (threat assessment → control catalog) and test-data (`good-ccc.yaml`
 - **Sachiko (Solution Architect), Allison (AI/ML Engineer), Timmy (Test Engineer)**  
   - Align architecture and pipelines with **guidance** and **controls** (Layers 1–2); tests and pipelines contribute to **evaluation** (Layer 5).
 
-The **guidance tutorial** and **guidance-example.yaml** (Layer 1) and the **control-catalog** flow (Layer 2) plus **pvtr-baseline-scan** (Layer 5) show how developers sit between guidance consumption and being evaluated.
-
 ### 6. Executive / C-Suite → Layers 3, 7
 
 - Own **risk appetite**, **policy** (Layer 3), and consume **audit** and **continuous monitoring** (Layer 7). They approve scope and compliance posture rather than authoring catalogs.
@@ -155,20 +181,6 @@ The **guidance tutorial** and **guidance-example.yaml** (Layer 1) and the **cont
 ### 7. Product Marketing & Community → Layer 1 (messaging)
 
 - Communicate adoption of **guidance** and baselines (e.g. “aligned with OSPS/OWASP”) without necessarily authoring Gemara artifacts.
-
----
-
-## Summary Table: Best Persona–Layer Fit
-
-| Gemara Layer | Tutorial primary persona | Primary personas (broad) | Supporting personas |
-|--------------|-------------------------|--------------------------|----------------------|
-| **Layer 1 – Guidance** | **Sachiko** (org-specific); **Grear** / **Regulated Ragnar** (regulator/governing-body) | Data Ops (governance/ML), Security (GRC), Open Source Pro (OSPO) | Software Developer, Product Marketing |
-| **Layer 2 – Controls** | **Pang** | Security Engineer, Open Source Pro, Infra/Platform, Data Ops | Software Developer (consumer) |
-| **Layer 3 – Policy** | **Guinevere** | Security Engineer (GRC), Open Source Pro, Data Ops (GRC), Executive | — |
-| **Layer 4 – Sensitive Activities** | — | Software Developer, Infra/Platform, Data Ops | — |
-| **Layer 5 – Evaluation** | — | Security Engineer, Infra/Platform, Open Source Pro (consumer) | Software Developer (subject of evaluation) |
-| **Layer 6 – Enforcement** | — | Infra/Platform, Security Engineer | — |
-| **Layer 7 – Audit & Monitoring** | — | Executive, Security/GRC, Data Ops (governance) | Open Source Pro |
 
 ---
 

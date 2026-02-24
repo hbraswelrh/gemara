@@ -14,7 +14,7 @@ This tutorial presents **Layer 1: Vectors and Guidance** through the lens of the
 
 **Why she fits Layer 1:** Sachiko captures **secure-by-design guidelines** and maps them to external standards (e.g. OWASP, NIST) so the organization can reuse one coherent guidance catalog internally. She focuses on **optimal outcomes without foreknowledge of implementation details**—exactly what a Gemara guidance catalog is for.
 
-> **Alternative personas for Layer 1:** For **regulator- or governing-body-aligned** guidance (e.g. data protection, regulated industry), use **Grear** (Data Governance Analyst in a government agency) or **Regulated Ragnar** (Open Source Pro in a regulated industry). See [Persona–Layer Alignment](../persona-layer-alignment.md#layer-1-vectors-and-guidance--persona-fit).
+> **Alternative personas for Layer 1:** For **regulator- or governing-body-aligned** guidance (e.g. data protection, regulated industry), use **Grear** (Data Governance Analyst in a government agency) or **Guinevere** (GRC lead developing guidance for globally distributed teams). See [Tutorial user journeys](../persona-layer-alignment.md#tutorial-user-journeys-writing-vs-ingesting) and [Persona–Layer Alignment](../persona-layer-alignment.md#layer-1-vectors-and-guidance--persona-fit).
 
 ---
 

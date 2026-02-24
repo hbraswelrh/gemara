@@ -89,7 +89,7 @@ families:
 | `objective` | Yes      | Unified statement of intent                              |
 | `family`    | Yes      | `id` of a family in this catalog                         |
 
-Optional but useful: `recommendations`, `applicability`, `rationale`, `statements`, and `guideline-mappings` (to link to OWASP, NIST, HIPAA, GDPR, CRA, PCI, ISO, etc.).
+Optional: `state` (active, draft, deprecated, retired; defaults to active in schema), `recommendations`, `applicability`, `rationale`, `statements`, `guideline-mappings`, `vector-mappings`, and others (see `layer-1.cue`).
 
 **Example (YAML):**
 
@@ -101,6 +101,7 @@ guidelines:
       Use digest-based or otherwise immutable references for container images
       to prevent tampering and ensure repeatable deployments.
     family: ORG.SSD.FAM01
+    state: active
     recommendations:
       - Prefer pull-by-digest over tags for production.
       - Pin base image digests in Dockerfiles or equivalent.
