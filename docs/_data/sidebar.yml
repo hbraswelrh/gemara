@@ -4,5 +4,12 @@
   url: /schema/
 - title: The SDKs
   url: /sdk/
+- title: Tutorials
+  url: /tutorials/
+  children:
+    - title: Guidance
+      children:
+        - title: Guidance Catalog Guide
+          url: /tutorials/guidance/guidance-guide
 - title: ADRs
   url: /adrs/
