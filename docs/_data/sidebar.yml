@@ -4,5 +4,12 @@
   url: /schema/
 - title: The SDKs
   url: /sdk/
+- title: Tutorials
+  url: /tutorials/
+  children:
+    - title: Policy
+      children:
+        - title: Policy Guide
+          url: /tutorials/policy/policy-guide
 - title: ADRs
   url: /adrs/
