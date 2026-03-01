@@ -10,10 +10,10 @@ This guide walks through creating a **control catalog** using the [Gemara](https
 
 In technical terms:
 * **Controls** are safeguards with a stated objective and a list of assessment requirements.
-* **Families** group controls by theme (e.g., supply chain, access control.
+* **Families** group related controls by domain (e.g., supply chain, access control).
 * **Threat mappings** link each control to the threat(s) it mitigates, connecting your control catalog to your threat catalog.
 
-This exercise produces a structured, machine-readable catalog you can validate with the [Gemara Layer 2 schema](https://gemara.openssf.org/schema/layer-2.html) (see `layer-2.cue`).
+This exercise produces a structured way to develop control objectives and corresponding testable conditions to determine if the objective is met.
 
 ## Prerequisites
 
@@ -58,7 +58,7 @@ metadata:
     - id: SEC.SLAM.CM
       title: Container Management Tool Security Threat Catalog
       version: "1.0.0"
-      url: https://example.org/catalogs/SEC.SLAM.CM-threats.yaml
+      url: file://threats.yaml
       description: |
         Threat catalog for the same scope; provides threat IDs for threat-mappings.
     - id: CCC
@@ -172,7 +172,7 @@ cue vet -c -d '#ControlCatalog' github.com/gemaraproj/gemara@latest your-control
 Or validate from a local clone:
 
 ```bash
-cue vet -c -d '#ControlCatalog' ./layer-2.cue ./metadata.cue ./mapping.cue ./base.cue your-control-catalog.yaml
+
 ```
 
 Fix any reported errors (e.g., missing required fields, invalid `family` reference, or malformed `threat-mappings`) so the catalog is schema-consistent.
