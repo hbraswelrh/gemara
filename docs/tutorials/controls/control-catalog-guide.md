@@ -15,7 +15,7 @@ In technical terms:
 
 This exercise produces a structured way to develop control objectives and corresponding testable conditions to determine if the objective is met.
 
-## Prerequisites
+## Optional Workflow
 
 Complete the [Threat Assessment Guide](threat-assessment-guide) for your scope (e.g., the container management tool **SEC.SLAM.CM**). You will reference the threat catalog’s ID and threat IDs when defining controls and threat-mappings.
 
@@ -134,15 +134,18 @@ controls:
   - id: SEC.SLAM.CM.CTL01
     title: Use Immutable Image References by Digest
     objective: |
-      Ensure the container management tool resolves and uses container images
-      by digest (or digest-plus-tag) so that image identity is immutable and
-      tampering or tag swapping cannot substitute a different image.
+      Ensure the container management tool requires signature validation to
+      verify that images are legitimate and from a trusted source. After the
+      check, pin each image to a digest (e.g., sha256) so that only verified
+      images are used and TOCTOU (time-of-check to time-of-use) attacks are
+      prevented.
     family: SEC.SLAM.CM.FAM01
     assessment-requirements:
       - id: SEC.SLAM.CM.CTL01.AR01
         text: |
-          The system MUST resolve image references to a digest (e.g., sha256:...)
-          before pull or run and MUST use that digest for all subsequent use.
+          The system MUST verify image signature (or require signature validation)
+          before pull or run, then pin the image to a digest (e.g., sha256:...)
+          after the check and use that digest for all subsequent use.
         applicability: ["all deployments"]
       - id: SEC.SLAM.CM.CTL01.AR02
         text: |
@@ -160,7 +163,7 @@ controls:
 
 ### Step 4: Validate Against the Layer 2 Schema
 
-The final catalog must conform to the Gemara Layer 2 schema in `layer-2.cue`. Validate with CUE:
+Validate the final catalog with CUE:
 
 **Validation commands:**
 
@@ -222,15 +225,19 @@ controls:
   - id: SEC.SLAM.CM.CTL01
     title: Use Immutable Image References by Digest
     objective: |
-      Ensure the container management tool resolves and uses container images
-      by digest (or digest-plus-tag) so that image identity is immutable and
-      tampering or tag swapping cannot substitute a different image.
+      Ensure the container management tool requires signature validation to
+      verify that images are legitimate and from a trusted source. After the
+      check, pin each image to a digest (e.g., sha256) so that only verified
+      images are used and TOCTOU (time-of-check to time-of-use) attacks are
+      prevented.
+
     family: SEC.SLAM.CM.FAM01
     assessment-requirements:
       - id: SEC.SLAM.CM.CTL01.AR01
         text: |
-          The system MUST resolve image references to a digest (e.g., sha256:...)
-          before pull or run and MUST use that digest for all subsequent use.
+          The system MUST verify image signature before pull or run, then pin
+          the image to a digest (e.g., sha256:...) after the check and use that
+          digest for all subsequent use.
         applicability: ["all deployments"]
       - id: SEC.SLAM.CM.CTL01.AR02
         text: |
