@@ -7,7 +7,7 @@ title: Tutorials
 
 Pick your role, then your goal — each path leads to the right guide.
 
-### I am a Product Security Engineer
+### I am a Security Engineer
 
 - **I want to perform a threat assessment** for a system or component
   → [Threat Assessment Guide](controls/threat-assessment-guide) — identify capabilities and threats, map them to attack surfaces (Layer 2).
@@ -26,17 +26,17 @@ Pick your role, then your goal — each path leads to the right guide.
 - **I want to see how guidance feeds into controls and policy**
   → [Persona–Layer Alignment](persona-layer-alignment) — understand the full flow from guidance to controls to policy.
 
-### I am a Risk Manager / Compliance Analyst
+### I am a Risk Manager
 
 - **I want to review the controls my policy will reference**
   → [Control Catalog Guide](controls/control-catalog-guide) — understand the control catalog structure and assessment requirements (Layer 2).
 
-### I am a Vendor / Manufacturer consuming OSS
+### I am a Software Consumer
 
 - **I want to understand the security posture** of software I consume
   → [Threat Assessment Guide](controls/threat-assessment-guide) — review threat catalogs for your dependencies (Layer 2).
 - **I want to comply with regulatory requirements** and manage consumption risk
-  → [Control Catalog Guide](controls/control-catalog-guide) — use control catalogs (e.g. OSPS, CCC) to assess and communicate posture (Layer 2).
+  → [Control Catalog Guide](controls/control-catalog-guide) — use control catalogs (e.g. OSPS, CCC) to act as hardening guides (Layer 2).
 
 ---
 
