@@ -217,4 +217,4 @@ guidelines:
 
 ## What's Next
 
-Map guidelines to Layer 2 controls via control catalogs’ `guideline-mappings`, or reference this guidance from policy and evaluation layers. See the [Gemara Layer 1 schema documentation](https://gemara.openssf.org/schema/layer-1.html) for optional fields such as `exemptions`, `see-also`, `replaced-by`, `front-matter`, `rationale`, `statements`, and `principles` or `vectors`.
+Map guidelines to Layer 2 controls via control catalogs’ `guidelines`, or reference this guidance from policy and evaluation layers. See the [Gemara Layer 1 schema documentation](https://gemara.openssf.org/schema/layer-1.html) for optional fields such as `exemptions`, `see-also`, `replaced-by`, `front-matter`, `rationale`, `statements`, and `principles` or `vectors`.
