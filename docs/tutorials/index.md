@@ -53,11 +53,11 @@ From a spreadsheet or checklist — create a guidance catalog (guidelines, famil
 
 ## What You'll Need
 
-* `go` installed
-* `cue` installed for validation
+- `go` installed
+- `cue` installed for validation
 
 ## Have Ideas?
 
-* Reach out via Slack in `#gemara`
-* Discuss in one of our bi-weekly meetings on the [OpenSSF calendar](https://calendar.google.com/calendar/u/0?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
-* Open a [GitHub Issue](https://github.com/gemaraproj/gemara/issues)
+- Reach out via Slack in `#gemara`
+- Discuss in one of our bi-weekly meetings on the [OpenSSF calendar](https://calendar.google.com/calendar/u/0?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ)
+- Open a [GitHub Issue](https://github.com/gemaraproj/gemara/issues)
