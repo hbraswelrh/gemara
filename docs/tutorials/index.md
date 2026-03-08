@@ -39,7 +39,7 @@ Before writing policy → [Threat Assessment Guide](controls/threat-assessment-g
 
 ### Creating a guidance catalog from best practices
 
-From a spreadsheet or checklist — create a guidance catalog (guidelines, families, mapping-references) that threat-informed controls can reference; express relationships to other frameworks in a Mapping Document. → [Guidance Catalog Guide](guidance/guidance-guide).
+From a spreadsheet or checklist — create a guidance catalog (guidelines, families, mapping-references) that threat-informed controls can reference; express relationships to other frameworks in a [Mapping Document](https://gemara.openssf.org/schema/mapping.html). → [Guidance Catalog Guide](guidance/guidance-guide).
 
 ---
 

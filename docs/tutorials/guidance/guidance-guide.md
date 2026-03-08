@@ -30,26 +30,30 @@ Choose the scope of your guidance (e.g., secure development, supply chain, data 
 | `Best Practice`| Non-mandatory recommendations (e.g., internal playbooks, OWASP-style)      |
 | `Framework`    | High-level structure or taxonomy (e.g., NIST CSF)                          |
 
-You can later add `mapping-references` to external documents (OWASP, NIST, HIPAA, GDPR, CRA, PCI, ISO) and use the **external** Mapping Document to align those sources.
+You can later add `mapping-references` to external documents (OWASP, NIST, HIPAA, GDPR, CRA, PCI, ISO) and use an **external** [Mapping Document](https://gemara.openssf.org/schema/mapping.html) (schema in `mapping.cue`) to align those sources.
 
 ### Step 1: Setting Up Metadata
 
 Declare your catalog and, if you will reference external standards, add mapping references. Key fields:
 
-| Field                   | What It Is                                                | Why                                                                 |
-|-------------------------|-----------------------------------------------------------|---------------------------------------------------------------------|
-| `title`                 | Display name for the guidance catalog (top-level)         | Human-readable label in reports and tooling                         |
-| `type`                  | One of Standard, Regulation, Best Practice, Framework      | Required by schema; clarifies intent                                |
-| `metadata.id`           | Unique identifier for this catalog                        | Used when other artifacts reference this catalog                    |
-| `metadata.mapping-references` | Pointers to external standards (e.g., OWASP, NIST)  | Resolve IDs used in external Mapping Document on guidelines             |
+| Field                         | What It Is                                                                 | Why                                                                 |
+|-------------------------------|----------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `title`                       | Display name for the guidance catalog (top-level)                         | Human-readable label in reports and tooling                         |
+| `type`                        | One of Standard, Regulation, Best Practice, Framework (catalog intent)     | Required by schema; clarifies intent                                |
+| `metadata.id`                 | Unique identifier for this catalog                                        | Used when other artifacts reference this catalog                    |
+| `metadata.type`               | Artifact kind (e.g. `GuidanceCatalog`)                                    | Required by schema; identifies the Gemara artifact type              |
+| `metadata.gemara-version`     | Gemara specification version (e.g. `"0.20.0"`)                            | Required by schema; declares which spec the artifact conforms to     |
+| `metadata.mapping-references` | Pointers to external standards (e.g., OWASP, NIST)                        | Resolve IDs used in external Mapping Document on guidelines          |
+| `metadata.applicability-categories` | List of categories (id, title, description) for when guidelines apply | Define scope so guidelines reference these ids in `applicability`; keeps applicability consistent and documented |
 
 **Example (YAML):**
 
 ```yaml
 title: Secure Software Development Guidance
-type: Best Practice
 metadata:
   id: ORG.SSD.001
+  type: GuidanceCatalog
+  gemara-version: "0.20.0"
   description: Internal secure development and supply chain security guidelines (dependencies, images, and development practices) aligned to industry standards
   version: 1.0.0
   author:
@@ -62,6 +66,17 @@ metadata:
       version: "2021"
       url: https://owasp.org/Top10
       description: OWASP Top 10 Web Application Security Risks
+  applicability-categories:
+    - id: containerized_workloads
+      title: Containerized Workloads
+      description: Guidelines that apply to container-based deployments and images.
+    - id: ci_cd
+      title: CI/CD
+      description: Guidelines that apply in continuous integration and deployment pipelines.
+    - id: github_repositories
+      title: GitHub Repositories
+      description: Guidelines that apply to projects using GitHub for source and collaboration.
+type: Best Practice
 ```
 
 ### Step 2: Define Families
@@ -87,8 +102,11 @@ families:
 | `title`     | Yes      | Short name for the guideline                             |
 | `objective` | Yes      | Unified statement of intent                              |
 | `family`    | Yes      | `id` of a family in this catalog                         |
+| `state`     | Yes      | Lifecycle: `Active`, `Draft`, `Deprecated`, or `Retired` |
 
-Optional: `state` (Active, Draft, Deprecated, Retired; defaults to Active in schema), `recommendations`, `applicability`, `rationale`, `statements`, `guidelines`, `vectors`, and others (see `layer-1.cue`).
+Optional: `recommendations`, `applicability`, `rationale`, `statements`, `guidelines`, `vectors`, and others (see `layer-1.cue`).
+
+**Applicability:** When you define `metadata.applicability-categories` in Step 1, use those category **ids** in each guideline’s `applicability` list (e.g. `["containerized_workloads", "ci_cd"]`). That keeps applicability consistent and documented.
 
 **Example (YAML):** The following guidelines illustrate supply chain security for dependencies and images (artifact integrity, source/code integrity, and secure transit):
 
@@ -104,9 +122,9 @@ guidelines:
     recommendations:
       - Prefer pull-by-digest over tags for production.
       - Pin base image digests in Dockerfiles or equivalent.
-    applicability: ["containerized workloads", "CI/CD"]
+    applicability: ["containerized_workloads", "ci_cd"]
     see-also:
-      - ORG.SSD.GL02 # Create extra guidelines
+      - ORG.SSD.GL02
       - ORG.SSD.GL03
   - id: ORG.SSD.GL02
     title: Prefer GitHub Branch Protection Rules 
@@ -114,12 +132,12 @@ guidelines:
       Use branch protection so only approved changes reach the main branch and
       malicious code cannot be merged without review.
     family: ORG.SSD.FAM01
-    state: active
+    state: Active
     recommendations:
       - Prefer pull requests submitted from fork branch.
       - Required maintainer/non-author review and approval for merge.
       - Prefer GitHub Actions Quality checks in CI on pull request.
-    applicability: ["containerized workloads", "CI/CD", "GitHub Repositories"]
+    applicability: ["containerized_workloads", "ci_cd", "github_repositories"]
     see-also:
       - ORG.SSD.GL01
   - id: ORG.SSD.GL03
@@ -128,7 +146,7 @@ guidelines:
       Use a VPN on untrusted networks to protect traffic from interception and
       DNS spoofing.
     family: ORG.SSD.FAM01
-    state: active
+    state: Active
     recommendations:
       - Use a VPN for registry and build traffic on untrusted networks.
     see-also:
@@ -141,6 +159,8 @@ The catalog must conform to the Gemara Layer 1 schema in `layer-1.cue`. Validate
 
 **Validation commands:**
 
+Using the **published** module:
+
 ```bash
 go install cuelang.org/go/cmd/cue@latest
 cue vet -c -d '#GuidanceCatalog' github.com/gemaraproj/gemara@latest your-guidance.yaml
@@ -152,9 +172,10 @@ A complete, schema-valid copy of this catalog is in [guidance-example.yaml](guid
 
 ```yaml
 title: Secure Software Development Guidance
-type: Best Practice
 metadata:
   id: ORG.SSD.001
+  type: GuidanceCatalog
+  gemara-version: "0.20.0"
   description: Internal secure development and supply chain security guidelines (dependencies, images, and development practices) aligned to industry standards
   version: 1.0.0
   author:
@@ -167,7 +188,18 @@ metadata:
       version: "2021"
       url: https://owasp.org/Top10
       description: OWASP Top 10 Web Application Security Risks
-
+  applicability-categories:
+    - id: containerized_workloads
+      title: Containerized Workloads
+      description: Guidelines that apply to container-based deployments and images.
+    - id: ci_cd
+      title: CI/CD
+      description: Guidelines that apply in continuous integration and deployment pipelines.
+    - id: github_repositories
+      title: GitHub Repositories
+      description: Guidelines that apply to projects using GitHub for source and collaboration.
+type: Best Practice
+front-matter: Example best-practices text for tutorials developed by Gemara maintainers.
 families:
   - id: ORG.SSD.FAM01
     title: Secure Dependencies and Supply Chain
@@ -180,26 +212,26 @@ guidelines:
       Use digest-based or immutable references for container images to prevent
       tampering and ensure repeatable deployments.
     family: ORG.SSD.FAM01
-    state: active
+    state: Active
     recommendations:
       - Prefer pull-by-digest over tags for production.
       - Pin base image digests in Dockerfiles or equivalent.
-    applicability: ["containerized workloads", "CI/CD"]
+    applicability: ["containerized_workloads", "ci_cd"]
     see-also:
       - ORG.SSD.GL02
       - ORG.SSD.GL03
   - id: ORG.SSD.GL02
-    title: Prefer GitHub Branch Protection Rules 
+    title: Prefer GitHub Branch Protection Rules
     objective: |
       Use branch protection so only approved changes reach the main branch and
       malicious code cannot be merged without review.
     family: ORG.SSD.FAM01
-    state: active
+    state: Active
     recommendations:
       - Prefer pull requests submitted from fork branch.
       - Required maintainer/non-author review and approval for merge.
       - Prefer GitHub Actions Quality checks in CI on pull request.
-    applicability: ["containerized workloads", "CI/CD", "GitHub Repositories"]
+    applicability: ["containerized_workloads", "ci_cd", "github_repositories"]
     see-also:
       - ORG.SSD.GL01
   - id: ORG.SSD.GL03
@@ -208,11 +240,12 @@ guidelines:
       Use a VPN on untrusted networks to protect traffic from interception and
       DNS spoofing.
     family: ORG.SSD.FAM01
-    state: active
+    state: Active
     recommendations:
       - Use a VPN for registry and build traffic on untrusted networks.
+    applicability: ["containerized_workloads", "ci_cd"]
     see-also:
-      - ORG.SSD.GL02 
+      - ORG.SSD.GL02
 ```
 
 ## What's Next
