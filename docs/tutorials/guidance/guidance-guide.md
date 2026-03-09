@@ -6,9 +6,9 @@ description: Step-by-step guide to creating Gemara-compatible guidance catalogs
 
 ## What This Is
 
-This guide walks through creating a **guidance catalog** using the [Gemara](https://gemara.openssf.org/) project.
+This guide walks through creating a **Guidance Catalog** using the [Gemara](https://gemara.openssf.org/) project.
 
-**The basic idea:** A guidance catalog is a structured set of **guidelines**—recommendations, requirements, or best practices—that help readers achieve desired outcomes. Guidelines are grouped into **families** and can reference external standards so you can align internal guidance with industry or regulatory sources.
+**The basic idea:** A Guidance Catalog is a structured set of **guidelines**—recommendations, requirements, or best practices—that help readers achieve desired outcomes. Guidelines are grouped into **families**.
 
 In technical terms:
 * **Guidance catalogs** have a **type** (Standard, Regulation, Best Practice, or Framework), **families** that group guidelines by theme, and **guidelines** with an objective, optional recommendations, and optional references to other guidelines within the *same* guidance catalog.
@@ -25,12 +25,12 @@ Choose the scope of your guidance (e.g., secure development, supply chain, data 
 
 | Type           | When to use                                                                 |
 |----------------|-----------------------------------------------------------------------------|
-| `Standard`     | Formal, normative specifications (e.g., ISO, PCI)                         |
+| `Standard`     | Formal, normative specifications (e.g., ISO 27001, PCI-DSS, NIST 800-53)                         |
 | `Regulation`   | Legal or regulatory requirements (e.g., HIPAA, GDPR, CRA)                  |
 | `Best Practice`| Non-mandatory recommendations (e.g., internal playbooks, OWASP-style)      |
 | `Framework`    | High-level structure or taxonomy (e.g., NIST CSF)                          |
 
-You can later add `mapping-references` to external documents (OWASP, NIST, HIPAA, GDPR, CRA, PCI, ISO) and use an **external** [Mapping Document](https://gemara.openssf.org/schema/mapping.html) (schema in `mapping.cue`) to align those sources.
+You can later add `mapping-references` to external documents and use an **external** [Mapping Document](https://gemara.openssf.org/schema/mapping.html) (schema in `mapping.cue`) to align those sources.
 
 ### Step 1: Setting Up Metadata
 
@@ -81,7 +81,7 @@ type: Best Practice
 
 ### Step 2: Define Families
 
-**Families** group guidelines by theme. The Layer 1 schema requires at least one family when the catalog defines `guidelines`. Each guideline’s `family` field must match the `id` of one of these groups (id, title, description).
+**Families** group guidelines by theme. The Guidance Catalog schema requires at least one family when the catalog defines `guidelines`. Each guideline’s `family` field must match the `id` of one of these groups (id, title, description).
 
 **Example (YAML):**
 
@@ -155,7 +155,7 @@ guidelines:
 
 ### Step 4: Validate
 
-The catalog must conform to the Gemara Layer 1 schema in `layer-1.cue`. Validate with CUE:
+The catalog must conform to the Guidance Catalog Definition defined in the CUE module. Validate with CUE:
 
 **Validation commands:**
 
@@ -250,4 +250,4 @@ guidelines:
 
 ## What's Next
 
-Map guidelines to Layer 2 controls via control catalogs’ `guidelines`, or reference this guidance from policy and evaluation layers. See the [Gemara Layer 1 schema documentation](https://gemara.openssf.org/schema/layer-1.html) for optional fields such as `exemptions`, `see-also`, `replaced-by`, `front-matter`, `rationale`, `statements`, and `principles` or `vectors`.
+Map guidelines to Layer 2 controls via control catalogs’ `guidelines`, or reference this guidance from a Policy. See the [schema documentation](https://gemara.openssf.org/schema/layer-1.html) for optional fields such as `exemptions`, `see-also`, `replaced-by`, `front-matter`, `rationale`, `statements`, and `principles` or `vectors`.
