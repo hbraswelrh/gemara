@@ -72,12 +72,12 @@ imports:
       assessment-requirement-modifications:
         - id: "CTL01-AR01-strict"
           target-id: "SEC.SLAM.CM.CTL01.AR01"
-          modification-type: "override"
+          modification-type: "Override"
           modification-rationale: "Require digest in all environments for this org."
           text: "The system MUST resolve image references to a digest before pull or run in all environments."
         - id: "CTL02-AR02-strict"
           target-id: "SEC.SLAM.CM.CTL02.AR02"
-          modification-type: "override"
+          modification-type: "Override"
           modification-rationale: "Require signatures and pinning to digest for all environments in this org."
           text: "The system MUST use TLS/SSL for all registry communication and MUST pin to the signed expected server certificate for the registry."
 
@@ -114,7 +114,7 @@ adherence:
     - type: "manual"
       description: "Quarterly review of exception requests and compliance reports."
   assessment-plans:
-    - id: "SEC.SLAM.CM.CTL01.AR01"
+    - id: "plan-ctl01-ar01"
       requirement-id: "SEC.SLAM.CM.CTL01.AR01"
       frequency: "every push"
       evaluation-methods:

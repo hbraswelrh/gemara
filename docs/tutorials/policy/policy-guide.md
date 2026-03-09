@@ -5,9 +5,9 @@ title: Organizational Risk & Policy Guide
 
 ## What This Is
 
-This guide walks through creating a **policy document** using the [Gemara](https://gemara.openssf.org/) project. The document conforms to the **Layer 3** schema in `layer-3.cue`.
+This guide walks through creating a **policy document** using the [Gemara](https://gemara.openssf.org/) project. The document conforms to the **Policy** schema in `layer-3.cue`.
 
-In technical terms:
+Terms to know:
 * **RACI**: Who is responsible, accountable, consulted, and informed.
 * **Scope**: What is in and out of scope (technologies, regions, sensitivity, users).
 * **Imports**: Which external policies, Control Catalogs, and Guidance the policy references (and any exclusions, constraints, or assessment-requirement modifications).
@@ -132,12 +132,12 @@ imports:
       assessment-requirement-modifications:
         - id: "CTL01-AR01-strict"
           target-id: "SEC.SLAM.CM.CTL01.AR01"
-          modification-type: override
+          modification-type: Override
           modification-rationale: "Require digest in all environments for this org."
           text: "The system MUST resolve image references to a digest before pull or run in all environments."
         - id: "CTL02-AR02-strict"
           target-id: "SEC.SLAM.CM.CTL02.AR02"
-          modification-type: override
+          modification-type: Override
           modification-rationale: "Require signatures and pinning to digest for all environments in this org."
           text: "The system MUST use TLS/SSL for all registry communication and MUST pin to the signed expected server certificate for the registry."
 ```
