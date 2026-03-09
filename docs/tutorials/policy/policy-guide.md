@@ -40,6 +40,8 @@ Set `title` and `metadata` (see [metadata.cue](https://github.com/gemaraproj/gem
 title: "Information Security Policy for Cloud and Web Applications"
 metadata:
   id: "org-policy-001"
+  type: Policy
+  gemara-version: "0.20.0"
   description: "Policy for cloud and web application security; references control catalogs."
   version: "1.0.0"
   author:
@@ -51,11 +53,8 @@ metadata:
       title: "Container Management Tool Security Control Catalog"
       version: "1.0.0"
       description: "Control catalog for container management tool security."
-    - id: "ORG-RISK"
-      title: "Organization Risk Catalog"
-      version: "1.0.0"
-      description: "Internal risk catalog for policy risk mappings."
 ```
+
 
 ### Step 1: Contacts
 
@@ -130,16 +129,11 @@ imports:
   catalogs:
     - reference-id: "SEC.SLAM.CM"
       assessment-requirement-modifications:
-        - id: "CTL01-AR01-strict"
-          target-id: "SEC.SLAM.CM.CTL01.AR01"
-          modification-type: override
-          modification-rationale: "Require digest in all environments for this org."
-          text: "The system MUST resolve image references to a digest before pull or run in all environments."
-        - id: "CTL02-AR02-strict"
-          target-id: "SEC.SLAM.CM.CTL02.AR02"
-          modification-type: override
-          modification-rationale: "Require signatures and pinning to digest for all environments in this org."
-          text: "The system MUST use TLS/SSL for all registry communication and MUST pin to the signed expected server certificate for the registry."
+        - id: "CTL02-AR01-strict"
+          target-id: "SEC.SLAM.CM.CTL02.AR01"
+          modification-type: Override
+          modification-rationale: "Require TLS and certificate pinning for all registry communication in this org."
+          text: "The system MUST use TLS/SSL for all registry communication and MUST pin to the expected server certificate or public key (or certificate chain) for the registry."
 ```
 
 ### Step 4: Implementation plan (optional)
@@ -160,30 +154,7 @@ implementation-plan:
     notes: Enforcement begins after evaluation baseline is established.
 ```
 
-### Step 5: Risks (optional)
-
-Add `risks` with one or both of:
-
-- **`mitigated`** - Mappings to risk catalogs/entries.
-- **`accepted`** - Accepted-risk entries (risk reference; optional `scope`, `justification`).
-
-**Example (YAML):**
-
-```yaml
-risks:
-  mitigated:
-    - reference-id: "ORG-RISK"
-      entries:
-        - reference-id: "ORG-RISK.R.01"
-      remarks: "Image tampering risk addressed by control catalog."
-  accepted:
-    - risk:
-        reference-id: "ORG-RISK"
-        entry-id: "ORG-RISK.R.LOW-01"
-      justification: "Accepted for non-production workloads with no sensitive data."
-```
-
-### Step 6: Adherence
+### Step 5: Adherence
 
 Define `adherence` with at least one of the following:
 
@@ -215,7 +186,7 @@ adherence:
   non-compliance: "Non-compliance is reported to responsible contacts and tracked in issue tracker; critical failures block deployment."
 ```
 
-## Step 7: Validation
+## Step 6: Validation
 
 The policy must conform to the Policy Definition defined in the CUE module. Validate with CUE:
 
@@ -273,16 +244,11 @@ imports:
   catalogs:
     - reference-id: "SEC.SLAM.CM"
       assessment-requirement-modifications:
-        - id: "CTL01-AR01-strict"
-          target-id: "SEC.SLAM.CM.CTL01.AR01"
-          modification-type: override
-          modification-rationale: "Require digest in all environments for this org."
-          text: "The system MUST resolve image references to a digest before pull or run in all environments."
-        - id: "CTL02-AR02-strict"
-          target-id: "SEC.SLAM.CM.CTL02.AR02"
-          modification-type: override
-          modification-rationale: "Require signatures and pinning to digest for all environments in this org."
-          text: "The system MUST use TLS/SSL for all registry communication and MUST pin to the signed expected server certificate for the registry."
+        - id: "CTL02-AR01-strict"
+          target-id: "SEC.SLAM.CM.CTL02.AR01"
+          modification-type: Override
+          modification-rationale: "Require TLS and certificate pinning for all registry communication in this org."
+          text: "The system MUST use TLS/SSL for all registry communication and MUST pin to the expected server certificate or public key (or certificate chain) for the registry."
 
 adherence:
   evaluation-methods:
