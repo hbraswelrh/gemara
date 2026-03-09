@@ -40,7 +40,7 @@ Set `title` and `metadata` (see [metadata.cue](https://github.com/gemaraproj/gem
 title: "Information Security Policy for Cloud and Web Applications"
 metadata:
   id: "org-policy-001"
-  description: "Policy for cloud and web application security; references control catalogs and guidance."
+  description: "Policy for cloud and web application security; references control catalogs."
   version: "1.0.0"
   author:
     id: security-team
@@ -51,10 +51,6 @@ metadata:
       title: "Container Management Tool Security Control Catalog"
       version: "1.0.0"
       description: "Control catalog for container management tool security."
-    - id: "ORG.SSD.001"
-      title: "Secure Software Development Guidance"
-      version: "1.0.0"
-      description: "Internal secure development guidelines."
     - id: "ORG-RISK"
       title: "Organization Risk Catalog"
       version: "1.0.0"
@@ -131,12 +127,6 @@ Ensure each `reference-id` appears in `metadata.mapping-references`.
 
 ```yaml
 imports:
-  guidance:
-    - reference-id: "ORG.SSD.001"
-      constraints:
-        - id: "GL01-annual-review"
-          target-id: "ORG.SSD.GL01"
-          text: "Review guideline applicability at least annually."
   catalogs:
     - reference-id: "SEC.SLAM.CM"
       assessment-requirement-modifications:
@@ -248,7 +238,7 @@ A complete, schema-valid copy of this policy is in [policy-example.yaml](policy-
 title: "Information Security Policy for Cloud and Web Applications"
 metadata:
   id: "org-policy-001"
-  description: "Policy for cloud and web application security; references control catalogs and guidance."
+  description: "Policy for cloud and web application security; references control catalogs."
   version: "1.0.0"
   author:
     id: security-team
@@ -259,10 +249,6 @@ metadata:
       title: "Container Management Tool Security Control Catalog"
       version: "1.0.0"
       description: "Control catalog for container management tool security."
-    - id: "ORG.SSD.001"
-      title: "Secure Software Development Guidance"
-      version: "1.0.0"
-      description: "Internal secure development guidelines."
 
 contacts:
   responsible:
@@ -284,8 +270,6 @@ scope:
       - "European Union"
 
 imports:
-  guidance:
-    - reference-id: "ORG.SSD.001"
   catalogs:
     - reference-id: "SEC.SLAM.CM"
       assessment-requirement-modifications:

@@ -67,8 +67,6 @@ scope:
       - "TLP Green (non-sensitive)"
 
 imports:
-  guidance:
-    - reference-id: "ORG.SSD.001"
   catalogs:
     - reference-id: "SEC.SLAM.CM"
       assessment-requirement-modifications:
