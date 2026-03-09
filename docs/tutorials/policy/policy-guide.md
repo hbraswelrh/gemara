@@ -31,34 +31,34 @@ The policy conforms to the Gemara Layer 3 schema in `layer-3.cue`. Top-level str
 
 **Imports:**
 
+- **`imports.policies`** — List of external policy imports. Use reference-id (must match metadata.mapping-references) to reference other policy documents this policy inherits or extends.
 - **`imports.guidance`** — List of guidance imports used when the policy aligns to Layer 1 guidance catalogs. Use reference-id (must match metadata.mapping-references). Optional exclusions and constraints (id, target-id, text).
 - **`imports.catalogs`** — List of catalog imports used when the policy references Layer 2 control catalogs. Use assessment-requirement-modifications to tailor how assessment requirements are applied (add, modify, remove, replace, override).
 
 **Adherence:**
 
-- **`adherence.evaluation-methods`** / **`adherence.enforcement-methods`** — Lists of accepted methods. Type: manual, behavioral, automated, autoremediation, or gate. Optional description and executor.
+- **`adherence.evaluation-methods`** / **`adherence.enforcement-methods`** — Lists of accepted methods. Type: Manual, Behavioral, Automated, Autoremediation, or Gate. Optional description and executor.
 - **`adherence.assessment-plans`** — List of assessment plans: id, requirement-id, frequency, evaluation-methods, optional evidence-requirements and parameters.
 - **`adherence.non-compliance`** — String describing how non-compliance is communicated or handled.
 
 Use [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) as the source of truth for required vs optional fields and nested structures.
 
-## Scenario
-
-Your organization needs a policy that applies to cloud and web applications in specific regions. You will:
-
-1. Set metadata and mapping-references so you can reference external control catalogs and guidance by id.
-2. Define contacts (responsible, accountable, consulted, informed).
-3. Set scope (in-scope: e.g. technologies, geopolitical regions; optionally out-of-scope).
-4. Import control catalogs and/or guidance, with optional constraints or assessment-requirement-modifications.
-5. Optionally add an implementation-plan (evaluation and enforcement timelines).
-6. Optionally list risks (mitigated and accepted with justification).
-7. Define adherence (evaluation methods, assessment plans, enforcement methods, non-compliance.
-
 ## Walkthrough
 
-### Step 1: Metadata and mapping-references
+### Step 0: Metadata and mapping-references
 
-Set `title` and `metadata` (see [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue) for the standard metadata fields). Include `mapping-references` for every external catalog or guidance document you reference in `imports` (by `reference-id`).
+Set `title` and `metadata` (see [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue) for the standard metadata fields). Include `mapping-references` for every external catalog, guidance document, or policy you reference in `imports` (by `reference-id`). Key fields (see [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) and [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue)):
+
+| Field                         | What It Is                                                                 | Why                                                                 |
+|-------------------------------|----------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `title`                       | Display name for the policy (top-level)                                   | Human-readable label in reports and tooling                         |
+| `metadata.id`                 | Unique identifier for this policy                                         | Used when other documents reference this policy                     |
+| `metadata.description`        | High-level summary of the policy's purpose and scope                       | Required by schema; clarifies intent                                |
+| `metadata.author`             | Actor (id, name, type) primarily responsible for this policy              | Required by schema; identifies the author                            |
+| `metadata.version`            | Version identifier (e.g. `"1.0.0"`)                                       | Optional; supports versioning and references                         |
+| `metadata.mapping-references` | Pointers to external catalogs, guidance, or policies referenced in imports | Required for `imports`; each `reference-id` must match an entry here |
+
+> **Note:** Include a `mapping-references` entry for every external catalog, guidance document, or policy you reference in `imports` (by `reference-id`).
 
 **Example (YAML):**
 
@@ -87,7 +87,7 @@ metadata:
       description: "Internal risk catalog for policy risk mappings."
 ```
 
-### Step 2: Contacts
+### Step 1: Contacts
 
 Define `contacts` with at least `responsible` and `accountable`. Each entry has `name`; optionally `affiliation` and `email`. Add `consulted` and `informed` if needed.
 
@@ -111,7 +111,7 @@ contacts:
       affiliation: "Engineering"
 ```
 
-### Step 3: Scope
+### Step 2: Scope
 
 Set `scope.in` (and optionally `scope.out`) with dimension fields such as `technologies`, `geopolitical`, `sensitivity`, `users`, `groups`. These define where and to whom the policy applies.
 
@@ -134,12 +134,14 @@ scope:
       - "Legacy On-Premises"
 ```
 
-### Step 4: Imports
+### Step 3: Imports
 
 Under `imports`:
 
+- **`policies`** — List of external policy imports. Each entry: reference-id (must match metadata.mapping-references) to reference other policy documents this policy inherits or extends.
 - **`guidance`** — List of guidance imports used when the policy aligns to Layer 1 guidance catalogs. Each entry: reference-id (match metadata.mapping-references), optional exclusions and constraints.
 - **`catalogs`** — List of catalog imports used when the policy references Layer 2 control catalogs. Use assessment-requirement-modifications to tailor how assessment requirements are applied (add, modify, remove, replace, override).
+ 
 
 Ensure each `reference-id` appears in `metadata.mapping-references`.
 
@@ -148,7 +150,7 @@ Ensure each `reference-id` appears in `metadata.mapping-references`.
 ```yaml
 imports:
   guidance:
-    - reference-id: ORG.SSD.001
+    - reference-id: "ORG.SSD.001"
       constraints:
         - id: "GL01-annual-review"
           target-id: "ORG.SSD.GL01"
@@ -168,7 +170,7 @@ imports:
           text: "The system MUST use TLS/SSL for all registry communication and MUST pin to the signed expected server certificate for the registry."
 ```
 
-### Step 5: Implementation plan (optional)
+### Step 4: Implementation plan (optional)
 
 Add `implementation-plan` with `evaluation-timeline` and `enforcement-timeline`. Each has `start` (ISO 8601 datetime), optional `end`, and `notes`. Optionally add `notification-process` (string).
 
@@ -186,7 +188,7 @@ implementation-plan:
     notes: Enforcement begins after evaluation baseline is established.
 ```
 
-### Step 6: Risks (optional)
+### Step 5: Risks (optional)
 
 Add `risks` with `mitigated` (mappings to risk catalogs/entries) and/or `accepted` (accepted-risk entries with risk reference, optional scope, optional justification).
 
@@ -206,9 +208,9 @@ risks:
       justification: "Accepted for non-production workloads with no sensitive data."
 ```
 
-### Step 7: Adherence
+### Step 6: Adherence
 
-Define `adherence` with at least one of: `evaluation-methods`, `assessment-plans`, `enforcement-methods`, or `non-compliance`. Methods use type (manual, behavioral, automated, autoremediation, gate) and optional description and executor. Assessment-plans use requirement-id, frequency, evaluation-methods, and optionally evidence-requirements and parameters. Set `non-compliance` to a string as needed.
+Define `adherence` with at least one of: `evaluation-methods`, `assessment-plans`, `enforcement-methods`, or `non-compliance`. Methods use type (Manual, Behavioral, Automated, Autoremediation, Gate) and optional description and executor. Assessment-plans use requirement-id, frequency, evaluation-methods, and optionally evidence-requirements and parameters. Set `non-compliance` to a string as needed.
 
 **Example (YAML):**
 
@@ -231,9 +233,9 @@ adherence:
   non-compliance: "Non-compliance is reported to responsible contacts and tracked in issue tracker; critical failures block deployment."
 ```
 
-## Example YAML (combined)
+## Full Example YAML (combined)
 
-The following combines the snippets above into a single policy document. Omit optional sections (e.g. implementation-plan, risks) if not needed.
+A complete, schema-valid copy of this policy is in [policy-example.yaml](policy-example.yaml) in this directory. The following combines the snippets above into a single policy document. Omit optional sections (e.g. implementation-plan, risks) if not needed. 
 
 ```yaml
 title: "Information Security Policy for Cloud and Web Applications"
