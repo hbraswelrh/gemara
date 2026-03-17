@@ -1,3 +1,6 @@
+# Secure Software Development Guidance to OWASP Top 10 (tutorial example)
+# Conforms to Gemara #MappingDocument (mapping.cue).
+# Source guidance catalog: ../guidance/guidance-example.yaml
 title: Secure Software Development Guidance to OWASP Top 10
 metadata:
   id: SSD-OWASP-MAP-001
@@ -15,7 +18,7 @@ metadata:
     - id: ORG-SSD
       title: Secure Software Development Guidance
       version: "1.0.0"
-      url: "file://guidance-example.yaml"
+      url: "file://../guidance/guidance-example.yaml"
     - id: OWASP
       title: OWASP Top 10
       version: "2021"
@@ -36,6 +39,7 @@ mappings:
       entry-id: "A06"
       entry-type: Guideline
     relationship: relates-to
+    strength: 7
     rationale: Immutable image references support supply chain integrity; OWASP A06 covers vulnerable and outdated components.
 
   - id: GL02-A01
@@ -46,6 +50,7 @@ mappings:
       entry-id: "A01"
       entry-type: Guideline
     relationship: relates-to
+    strength: 6
     rationale: Branch protection reduces unauthorized code changes; OWASP A01 covers broken access control.
 
   - id: GL03-A02
@@ -56,4 +61,5 @@ mappings:
       entry-id: "A02"
       entry-type: Guideline
     relationship: relates-to
+    strength: 6
     rationale: VPN on untrusted networks protects data in transit; OWASP A02 covers cryptographic failures.

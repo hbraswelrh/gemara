@@ -39,7 +39,11 @@ Before writing policy → [Threat Assessment Guide](controls/threat-assessment-g
 
 ### Creating a guidance catalog from best practices
 
-From a spreadsheet or checklist — create a guidance catalog (guidelines, groups, mapping-references) that threat-informed controls can reference; express relationships to other frameworks in a [Mapping Document](https://gemara.openssf.org/schema/mapping.html). → [Guidance Catalog Guide](guidance/guidance-guide).
+From a spreadsheet or checklist — create a guidance catalog (guidelines, groups, mapping-references) that threat-informed controls can reference; express relationships to other frameworks in a [Mapping Document Guide](mapping/mapping-document-guide) (see also the [Mapping schema](https://gemara.openssf.org/schema/mapping.html)). → [Guidance Catalog Guide](guidance/guidance-guide).
+
+### Creating a mapping document between artifacts
+
+Express how entries in a source artifact (e.g., control catalog) relate to a target artifact (e.g., regulation or framework) — [Mapping Document Guide](mapping/mapping-document-guide) — source/target references, relationship types, and applicability (cross-artifact).
 
 ### Creating organizational policy
 
@@ -53,7 +57,8 @@ Create a policy document that translates risk appetite into mandatory rules — 
 |-------|----------|-------|
 | **Layer 1** — Guidance | Guidance Catalog (guidelines, groups, mapping-references) | [Guidance Catalog Guide](guidance/guidance-guide) |
 | **Layer 2** — Controls | Threat Catalog + Control Catalog (assessment requirements, threats) | [Threat Assessment](controls/threat-assessment-guide), [Control Catalog](controls/control-catalog-guide) |
-| **Layer 3** — Policy   | Policy Document (scope, imports, adherence, risks)                  | [Policy Guide](policy/policy-guide) |
+| **Layer 3** — Policy   | Policy Document (scope, imports, adherence, risks)                   | [Policy Guide](policy/policy-guide) |
+| **Cross-artifact**    | Mapping Document (source/target, mappings, relationship types)        | [Mapping Document Guide](mapping/mapping-document-guide) |
 
 ## What You'll Need
 
