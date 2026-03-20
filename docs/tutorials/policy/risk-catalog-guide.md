@@ -1,20 +1,19 @@
 ---
 layout: page
 title: Risk Catalog Guide
+description: Step-by-step guide to creating Gemara-compatible risk catalogs
 ---
 
 ## What This Is
 
-This guide walks through creating a **Risk Catalog** using the [Gemara](https://gemara.openssf.org/) project. The document conforms to the **RiskCatalog** schema in `layer-3.cue`.
+This guide walks through creating a **Risk Catalog** using the [Gemara](https://gemara.openssf.org/) project. The document conforms to the **RiskCatalog** type in the [Layer 3 schema](https://gemara.openssf.org/schema/layer-3.html).
 
-A risk catalog is a structured collection of documented risks that may affect an organization, system, or service. It provides a centralized reference for risks that can be mapped to threats and referenced by policies when documenting how those risks are mitigated or accepted.
+**The basic idea:** A Risk Catalog is a structured list of **risks** that might affect an organization, system, or service. You organize them into **groups** that express how much risk you are willing to carry ([risk appetite](https://gemara.openssf.org/glossary/risk-appetite/)) and optionally cap how bad a single risk in that group can be (**max-severity**). Each risk has an assessed **severity** and can point to Layer 2 **threats** so mitigations and policies stay traceable to threat catalogs.
 
-Terms to know:
-* **Groups**: Groupings of risks with a defined [risk appetite](https://gemara.openssf.org/glossary/risk-appetite/) and optional maximum severity. Each risk belongs to one group (schema field `groups` / `group`).
-* **Risks**: Individual risk entries with id, title, description, severity, and optional links to Layer 2 threats and RACI owner.
-* **Appetite**: The acceptable level of risk for a group (`Minimal`, `Low`, `Moderate`, `High`) per `#RiskAppetite` in `layer-3.cue`.
-* **Severity**: Impact level for a risk or group cap (`Low`, `Medium`, `High`, `Critical`).
-* **Mapping-references**: External threat catalogs (or other artifacts) that risks reference via `threats`. Each `reference-id` used in `threats` must appear in `metadata.mapping-references`.
+In technical terms:
+* **Risk catalogs** declare `metadata` (including `type: RiskCatalog`), optional **groups** (each with id, title, description, appetite, optional max-severity), and **risks** with required id, title, description, `group`, and `severity`, plus optional owner (RACI), impact, and `threats` mappings.
+* **Groups** use appetite values `Minimal`, `Low`, `Moderate`, or `High` and optional group-level **max-severity** (`Low`, `Medium`, `High`, `Critical`).
+* **Risks** use **severity** at the same scale (`Low` through `Critical`). Links under `threats` use the same multi-entry mapping pattern as control and threat catalogs; every `reference-id` there must appear in `metadata.mapping-references`.
 
 This exercise produces a risk catalog that you can reference from a [Policy](policy-guide) when documenting mitigated and accepted risks.
 
@@ -24,7 +23,7 @@ The example risks in this guide are drawn from the same scope as the [Threat Ass
 
 ### Step 0: Metadata and mapping-references
 
-Set `title` and `metadata` (see [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue) for the standard metadata fields). Use `type: RiskCatalog`. Include `mapping-references` for every external threat catalog (or other document) you reference in risks under `threats` (by `reference-id`). Key fields (see [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) and [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue):
+Set `title` and `metadata`. Use `type: RiskCatalog` and the usual Gemara metadata fields (`id`, `gemara-version`, `description`, `author`, and optional `version`). Include `mapping-references` for every external threat catalog (or other document) you reference in risks under `threats` (by `reference-id`). Key fields:
 
 | Field                         | What It Is                                                                 | Why                                                                 |
 |-------------------------------|----------------------------------------------------------------------------|---------------------------------------------------------------------|
@@ -64,7 +63,7 @@ metadata:
 
 ### Step 1: Groups
 
-Define at least one **group** when the catalog has risks. Groups classify risks and set appetite boundaries. Each entry is a `#RiskCategory` (extends `#Group`) with:
+Define at least one **group** when the catalog has risks. Groups classify risks and set appetite boundaries. Each group entry has:
 
 | Field            | Required | What It Is                                                                 |
 |------------------|----------|----------------------------------------------------------------------------|
@@ -149,7 +148,7 @@ risks:
 
 ### Step 3: Validation
 
-The catalog must conform to the RiskCatalog definition in the CUE module. Validate with CUE:
+The catalog must validate against the Layer 3 risk catalog schema. Validate with CUE:
 
 **Validation commands:**
 
@@ -239,8 +238,8 @@ risks:
 
 ## What's Next
 
-- Reference this risk catalog from a **Policy** document: in the policy's `risks` section, use `mitigated` and `accepted` entries that reference risk ids (and, for accepted risks, justification and optional scope). See the [Policy Guide](policy-guide) and [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) (`#Risks`, `#MitigatedRisk`, `#AcceptedRisk`).
+- Reference this risk catalog from a **Policy** document: in the policy's `risks` section, use `mitigated` and `accepted` entries that reference risk ids (and, for accepted risks, justification and optional scope). See the [Policy Guide](policy-guide) and the Policy / risks section of the [Layer 3 schema](https://gemara.openssf.org/schema/layer-3.html).
 - Use **Layer 5** evaluations to assess whether controls and implementations address the threats linked to these risks.
 - Use **Layer 7** audit and continuous monitoring to review risk posture and policy effectiveness.
 
-See the [Layer 3 schema documentation](https://gemara.openssf.org/schema/layer-3.html) and [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) for the full specification.
+Normative definitions: [Layer 3 schema](https://gemara.openssf.org/schema/layer-3.html). CUE source: [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue).
