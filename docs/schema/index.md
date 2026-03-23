@@ -21,6 +21,12 @@ Click on an artifact to view its schema:
     <p>Attack vectors and techniques used to compromise information systems.</p>
   </a>
 
+  <a href="principlecatalog.html" class="layer-card">
+    <span class="layer-badge">Layer 1</span>
+    <h3>Principle Catalog</h3>
+    <p>Foundational values that guide governance, design, and operational decisions.</p>
+  </a>
+
   <a href="controlcatalog.html" class="layer-card">
     <span class="layer-badge">Layer 2</span>
     <h3>Control Catalog</h3>
@@ -62,6 +68,12 @@ Click on an artifact to view its schema:
     <h3>Enforcement Log</h3>
     <p>Prevention or remediation based on assessment findings.</p>
   </a>
+
+  <a href="auditlog.html" class="layer-card">
+    <span class="layer-badge">Layer 7</span>
+    <h3>Audit Log</h3>
+    <p>Review of organizational policy and conformance.</p>
+  </a>
 </div>
 
 **[Browse all schemas in the CUE Central Registry →](https://registry.cue.works/docs/github.com/gemaraproj/gemara@latest)**
@@ -77,6 +89,7 @@ Schema documentation generated from CUE. One page per schema file:
 - [Mapping Primitives](mapping-inline.html)
 - [Guidance Catalog](guidancecatalog.html)
 - [Vector Catalog](vectorcatalog.html)
+- [Principle Catalog](principlecatalog.html)
 - [Control Catalog](controlcatalog.html)
 - [Capability Catalog](capabilitycatalog.html)
 - [Threat Catalog](threatcatalog.html)
@@ -85,6 +98,7 @@ Schema documentation generated from CUE. One page per schema file:
 - [Mapping Document](mappingdocument.html)
 - [Evaluation Log](evaluationlog.html)
 - [Enforcement Log](enforcementlog.html)
+- [Audit Log](auditlog.html)
 
 <!-- SCHEMA_LIST_END -->
 
@@ -94,7 +108,7 @@ Schema documentation generated from CUE. One page per schema file:
 # Install CUE
 go install cuelang.org/go/cmd/cue@latest
 
-# Validate a control catalog using the Layer 2 ControlCatalog definition
+# Validate a control catalog using the ControlCatalog definition
 cue vet -c -d '#ControlCatalog' github.com/gemaraproj/gemara@latest your-controls.yaml
 ```
 
@@ -112,8 +126,8 @@ Schemas follow these naming standards:
 | 2     | Definition  | Threat                    | Control                 | Threat Catalog           | Control Catalog        |
 | 3     | Definition  | Risk                      | Policy                  | Risk Catalog             | —                      |
 | 4     | —           | —                         | —                       | —                        | —                      |
-| 5     | Measurement | Evaluation Result         | Evaluation Result       | Evaluation Log           | Evaluation Log         |
-| 6     | Measurement | Enforcement Result        | Enforcement Result      | Enforcement Log          | Enforcement Log        |
+| 5     | Measurement | Control Evaluation        | Control Evaluation      | Evaluation Log           | Evaluation Log         |
+| 6     | Measurement | Action Result             | Action Result           | Enforcement Log          | Enforcement Log        |
 | 7     | Measurement | —                         | Audit Result            | —                        | Audit Log              |
 
 **Note:** "—" indicates no planned schema implementation.
@@ -143,7 +157,7 @@ The core specification release versions the CUE schemas as a single unit.
 
 ### Schema Lifecycle and Major Version Example
 
-Possible schema states include: **Experimental** → **Stable** → **Deprecated**. These are denoted on each layer schema with a `@status(experimental|stable|deprecated)` attribute.
+Possible schema states include: **Experimental** → **Stable** → **Deprecated**. These are denoted on each schema file with a `@status(experimental|stable|deprecated)` attribute.
 
 The following table illustrates how schemas progress through their lifecycle and how major version changes are handled:
 
@@ -167,9 +181,9 @@ The following table illustrates how schemas progress through their lifecycle and
 
 ### Stable Status
 
-* Layers promote independently. Each layer only requires its direct dependencies to be Stable (e.g., Layer 2 requires Layer 1, but not Layer 6).
-* Layers can be promoted to Stable at different times. Layer 2 can be Stable while Layer 6 remains Experimental.
-* Stable schemas may only reference other Stable schemas.
+* Schemas promote independently and at different times (e.g., ControlCatalog can be Stable while Policy remains Experimental).
+* When a schema is promoted to Stable, all types it references must also be Stable (e.g., promoting `#ControlCatalog` requires `#Catalog`, `#Metadata`, `#Group`, and any other referenced types to already be Stable).
+* Stable schemas may only reference other Stable types.
 * Stable schemas maintain backward and forward compatibility within major versions, allowing **additive optional changes** only.
 * Breaking changes require major version increments and should be avoided in all normal circumstances.
 
