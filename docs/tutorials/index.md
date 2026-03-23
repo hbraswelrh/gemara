@@ -43,7 +43,7 @@ From a spreadsheet or checklist — create a guidance catalog (guidelines, group
 
 ### Creating a mapping document between artifacts
 
-Express how entries in a source artifact (e.g., control catalog) relate to a target artifact (e.g., regulation or framework) — [Mapping Document Guide](mapping/mapping-document-guide) — source/target references, relationship types, and applicability (cross-artifact).
+Express how entries in a source artifact (e.g., guidance, principle, or control catalog) relate to a target artifact (e.g., regulation or framework) — [Mapping Document Guide](mapping/mapping-document-guide) — source/target references, relationship types, `entry-type` (including Principle where applicable), and applicability (cross-artifact).
 
 ### Creating organizational policy
 
@@ -55,10 +55,10 @@ Create a policy document that translates risk appetite into mandatory rules — 
 
 | Layer | Artifact | Guide |
 |-------|----------|-------|
-| **Layer 1** — Guidance | Guidance Catalog (guidelines, groups, mapping-references) | [Guidance Catalog Guide](guidance/guidance-guide) |
+| **Layer 1** — Guidance | Guidance Catalog (guidelines, groups, mapping-references); [Principle Catalog](https://gemara.openssf.org/schema/principlecatalog.html) (principles, groups) | [Guidance Catalog Guide](guidance/guidance-guide) |
 | **Layer 2** — Controls | Threat Catalog + Control Catalog (assessment requirements, threats) | [Threat Assessment](controls/threat-assessment-guide), [Control Catalog](controls/control-catalog-guide) |
 | **Layer 3** — Policy   | Policy Document (scope, imports, adherence, risks)                   | [Policy Guide](policy/policy-guide) |
-| **Cross-artifact**    | Mapping Document (source/target, mappings, relationship types)        | [Mapping Document Guide](mapping/mapping-document-guide) |
+| **Cross-artifact**    | Mapping Document (source/target, mappings, relationship types; entry types include guidelines, controls, Principle, threats, risks, and others per schema) | [Mapping Document Guide](mapping/mapping-document-guide) |
 
 ## What You'll Need
 
