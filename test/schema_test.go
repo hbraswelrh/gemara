@@ -58,12 +58,14 @@ func TestSchemaValidation(t *testing.T) {
 
 		// GuidanceCatalog — positive
 		{"valid AI governance framework", "./test-data/good-aigf.yaml", "#GuidanceCatalog", false, ""},
+		// PrinciplesCatalog — positive
+		{"valid AIGF principles catalog", "./test-data/good-aigf-principles.yaml", "#PrincipleCatalog", false, ""},
 
 		// VectorCatalog — positive
-		{"valid vector catalog", "./test-data/good-vector-catalog.yaml", "#VectorCatalog", false, ""},
+		{"valid AIGF vector catalog", "./test-data/good-aigf-vectors.yaml", "#VectorCatalog", false, ""},
 		{"threats with vectors", "./test-data/good-threat-catalog.yaml", "#ThreatCatalog", false, ""},
 		{"valid capability catalog", "./test-data/good-capability-catalog.yaml", "#CapabilityCatalog", false, ""},
-		{"vector mapping", "./test-data/good-vector-mitre-mapping.yaml", "#MappingDocument", false, ""},
+		{"vector mapping", "./test-data/good-vector-owasp-mapping.yaml", "#MappingDocument", false, ""},
 
 		// RiskCatalog — positive
 		{"valid risk catalog", "./test-data/good-risk-catalog.yaml", "#RiskCatalog", false, ""},
@@ -79,6 +81,7 @@ func TestSchemaValidation(t *testing.T) {
 
 		// MappingDocument — positive
 		{"valid mapping document", "./test-data/good-mapping-document.yaml", "#MappingDocument", false, ""},
+		{"valid AIGF NIST 800-53 mapping", "./test-data/good-aigf-nist-mapping.yaml", "#MappingDocument", false, ""},
 
 		// MappingDocument — negative
 		{"invalid mapping document without mapping-references", "./test-data/bad-mapping-document.yaml", "#MappingDocument", true, ""},
@@ -97,6 +100,12 @@ func TestSchemaValidation(t *testing.T) {
 		{"enforcement action with invalid disposition", "./test-data/bad-enforcement-log.yaml", "#EnforcementLog", true, ""},
 		{"enforcement action missing log reference", "./test-data/bad-enforcement-missing-log.yaml", "#EnforcementLog", true, ""},
 		{"clear disposition with failed assessment", "./test-data/bad-enforcement-clear-failed.yaml", "#EnforcementLog", true, ""},
+
+		// AuditLog — positive
+		{"valid audit log", "./test-data/good-audit-log.yaml", "#AuditLog", false, ""},
+
+		// AuditLog — negative
+		{"audit log missing summary criteria and results", "./test-data/bad-audit-log.yaml", "#AuditLog", true, ""},
 
 		// ControlCatalog — edge cases
 		{"empty nested catalog", "./test-data/nested-empty.yaml", "#ControlCatalog", false, ""},
