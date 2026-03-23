@@ -13,9 +13,7 @@ This guide walks through creating a **Guidance Catalog** using the [Gemara](http
 In technical terms:
 * **Guidance catalogs** have a **type** (Standard, Regulation, Best Practice, or Framework), **groups** that group guidelines by theme, and **guidelines** with an objective, optional recommendations, and optional references to other guidelines within the *same* guidance catalog.
 * **Guidelines:** state the intent and context; they have statements which act as sub-requirements of the guideline (e.g., `ORG.SSD.001` and statements.id `ORG.SSD.001.1`). The guidance includes a see-also for linking other guidelines within the same guidance catalog (e.g., `ORG.SSD.001` see-also `ORG.SSD.002`, `ORG.SSD.003`).
-* **Guidelines** have the ability to be mapped to external guidance (e.g., OWASP, NIST, HIPAA, GDPR, CRA, PCI, ISO) and to controls in a *separate* **Mapping Document**. Downstream Gemara Layers can reference `guidelines`, defining support for specific controls.
-
-> **Coming Soon:** Mapping Document Tutorial.
+* **Guidelines** can be mapped to external guidance (e.g., OWASP, NIST) using a separate **Mapping Document** (`#MappingDocument` in [mappingdocument.cue](https://github.com/gemaraproj/gemara/blob/main/mappingdocument.cue)); `entry-type` includes `Guideline`, `Principle`, `Control`, threats, risks, vectors, and other `#EntryType` values. Downstream layers can reference `guidelines` on controls or import guidance from policy.
 
 **Who might write guidance:** Authors can represent **internal** teams (unique organizational circumstances), **industry groups** (e.g., OWASP Top 10, PCI standards), **government agencies** (e.g., NIST Cybersecurity Framework, HIPAA), or **international standards bodies** (e.g., GDPR, CRA, ISO). Compliance professionals can use Gemara as a logical model for categorizing and mapping compliance activities to these sources.
 
@@ -32,7 +30,7 @@ Choose the scope of your guidance (e.g., secure development, supply chain, data 
 | `Best Practice`| Non-mandatory recommendations (e.g., internal playbooks, OWASP-style)      |
 | `Framework`    | High-level structure or taxonomy (e.g., NIST CSF)                          |
 
-You can later add `mapping-references` to external documents and use an **external** [Mapping Document](https://gemara.openssf.org/schema/mapping.html) (Tutorial Coming Soon) to align those sources. 
+You can later add `mapping-references` to external documents and use a [Mapping Document](https://gemara.openssf.org/schema/mapping.html) to align those sources (minimal example: [mapping-document.yaml](mapping-document.yaml)).
 
 ### Step 1: Setting Up Metadata
 
@@ -81,7 +79,7 @@ metadata:
 type: Best Practice
 ```
 
-> **Minimal Mapping Document example:** A Mapping Document that maps this guidance catalog’s guidelines to OWASP Top 10 (source `ORG-SSD`, target `OWASP`) is in [mapping-document.yaml](mapping-document.yaml).
+> **Minimal Mapping Document example:** A Mapping Document that maps this guidance catalog’s guidelines to OWASP Top 10 (source `ORG.SSD.001`, target `OWASP`) is in [mapping-document.yaml](mapping-document.yaml).
 
 ### Step 2: Define Groups
 
@@ -98,7 +96,7 @@ groups:
 
 ### Step 3: Define Guidelines
 
-**Guidelines** are the core content. Required fields for each guideline (see `layer-1.cue`):
+**Guidelines** are the core content. Required fields for each guideline (see `#Guideline` in [guidancecatalog.cue](https://github.com/gemaraproj/gemara/blob/main/guidancecatalog.cue)):
 
 | Field       | Required | Description                                              |
 |-------------|----------|----------------------------------------------------------|
@@ -108,7 +106,7 @@ groups:
 | `group`     | Yes      | `id` of a group in this catalog                          |
 | `state`     | Yes      | Lifecycle: `Active`, `Draft`, `Deprecated`, or `Retired` |
 
-Optional: `recommendations`, `applicability`, `rationale`, `statements`, `guidelines`, `vectors`, and others (see `layer-1.cue`).
+Optional: `recommendations`, `applicability`, `rationale`, `statements`, `principles`, `vectors`, and others (see [guidancecatalog.cue](https://github.com/gemaraproj/gemara/blob/main/guidancecatalog.cue)).
 
 **Applicability:** When you define `metadata.applicability-groups` in Step 1, use those group **ids** in each guideline’s `applicability` list (e.g. `["containerized_workloads", "ci_cd"]`). That keeps applicability consistent and documented.
 
@@ -122,7 +120,7 @@ guidelines:
       Use digest-based or immutable references for container images to prevent
       tampering and ensure repeatable deployments.
     group: ORG.SSD.FAM01
-    state: active
+    state: Active
     recommendations:
       - Prefer pull-by-digest over tags for production.
       - Pin base image digests in Dockerfiles or equivalent.
@@ -167,8 +165,16 @@ Using the **published** module:
 
 ```bash
 go install cuelang.org/go/cmd/cue@latest
-cue vet -c -d '#GuidanceCatalog' github.com/gemaraproj/gemara@latest your-guidance.yaml
+cue vet -c -d '#GuidanceCatalog' github.com/gemaraproj/gemara@latest your-guidance-example.yaml
 ```
+
+From a **clone of this repository** (run from the repo root; replace the placeholder with your file path):
+
+```bash
+cue vet -c -d '#GuidanceCatalog' . your-guidance-example.yaml
+```
+
+A reference copy is [guidance-example.yaml](guidance-example.yaml) in this directory.
 
 ### Minimal Full Example
 
@@ -254,4 +260,4 @@ guidelines:
 
 ## What's Next
 
-Map guidelines to Layer 2 controls via control catalogs’ `guidelines`, or reference this guidance from a Policy. See the [schema documentation](https://gemara.openssf.org/schema/layer-1.html) for optional fields such as `exemptions`, `see-also`, `replaced-by`, `front-matter`, `rationale`, `statements`, and `principles` or `vectors`.
+Map guidelines to Layer 2 controls via control catalogs’ `guidelines`, or reference this guidance from a Policy. Layer 1 also includes [Vector](https://gemara.openssf.org/schema/vectorcatalog.html) and [Principle](https://gemara.openssf.org/schema/principlecatalog.html) catalogs in the spec. See the [Layer 1 schema documentation](https://gemara.openssf.org/schema/layer-1.html) and [guidancecatalog.cue](https://github.com/gemaraproj/gemara/blob/main/guidancecatalog.cue) for optional fields such as `exemptions`, `see-also`, `replaced-by`, `front-matter`, `rationale`, `statements`, `principles`, and `vectors`.

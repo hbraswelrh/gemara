@@ -109,7 +109,7 @@ Schema documentation generated from CUE. One page per schema file:
 go install cuelang.org/go/cmd/cue@latest
 
 # Validate a control catalog using the ControlCatalog definition
-cue vet -c -d '#ControlCatalog' github.com/gemaraproj/gemara@latest your-controls.yaml
+cue vet -c -d '#ControlCatalog' github.com/gemaraproj/gemara@latest your-control-catalog-example.yaml
 ```
 
 ## Architecture Decisions

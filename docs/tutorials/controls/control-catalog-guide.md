@@ -48,6 +48,8 @@ Declare your control catalog and mapping references. Key fields:
 title: Container Management Tool Security Control Catalog
 metadata:
   id: SEC.SLAM.CM
+  type: ControlCatalog
+  gemara-version: "0.20.0"
   description: Control catalog for container management tool security; mitigates threats from the SEC.SLAM.CM threat catalog.
   version: 1.0.0
   author:
@@ -60,7 +62,7 @@ metadata:
       version: "1.0.0"
       url: file://threats.yaml
       description: |
-        Threat catalog for the same scope; provides threat IDs for threat-mappings.
+        Threat catalog for the same scope; provides threat IDs for `threats` mappings.
     - id: CCC
       title: Common Cloud Controls Core
       version: v2025.10
@@ -93,7 +95,7 @@ metadata:
 
 **Groups** group controls by theme. The Layer 2 schema requires at least one group when the catalog defines its own `controls`. Each control's `group` field must match the `id` of one of these groups.
 
-Required fields for each group (see `base.cue`):
+Required fields for each group (see `#Group` in [collections.cue](https://github.com/gemaraproj/gemara/blob/main/collections.cue)):
 
 | Field         | Required | Description                                  |
 |---------------|----------|----------------------------------------------|
@@ -117,20 +119,19 @@ groups:
 > **Note:** For how controls are automatically pulled into policy to mitigate high-severity risks, see the FAQ.
 
 
-**Option A — Import Controls:** If an external catalog (e.g., CCC) defines controls that address your threats, reference it in the `mapping-references` and list the control IDs in `imports.controls`.
+**Option A — Import Controls:** If an external catalog (e.g., CCC) defines controls that address your threats, reference it in `mapping-references` and list imported control IDs under top-level `imports` as `#MultiEntryMapping` entries (see [mapping_inline.cue](https://github.com/gemaraproj/gemara/blob/main/mapping_inline.cue)).
 
 **Example (YAML):**
 
 ```yaml
 imports:
-  controls
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CTL42
         remarks: Image signing and verification
 ```
 
-**Option B — Define your own controls:** For controls specific to your scope, define them under `controls`. Required and common fields (see `layer-2.cue`):
+**Option B — Define your own controls:** For controls specific to your scope, define them under `controls`. Required and common fields (see `#Control` in [controlcatalog.cue](https://github.com/gemaraproj/gemara/blob/main/controlcatalog.cue)):
 
 | Field                    | Required | Description                                                                 |
 |--------------------------|----------|-----------------------------------------------------------------------------|
@@ -142,7 +143,7 @@ imports:
 | `threats`        | No       | Links to threat catalog(s) and threat IDs this control mitigates            |
 | `state`                  | Yes       | Lifecycle: `Active` (default), `Draft`, `Deprecated`, `Retired`             |
 
-Each **assessment requirement** (see `layer-2.cue`) must have:
+Each **assessment requirement** (see `#AssessmentRequirement` in [controlcatalog.cue](https://github.com/gemaraproj/gemara/blob/main/controlcatalog.cue)) must have:
 
 | Field           | Required | Description                                                                 |
 |-----------------|----------|-----------------------------------------------------------------------------|
@@ -203,22 +204,30 @@ controls:
         state: Active
 ```
 
-### Step 4: Validate Against the Layer 2 Schema
+### Step 4: Validate Against the Control Catalog Schema
 
-Validate the final catalog with CUE:
+Validate the final catalog with CUE (`#ControlCatalog` in [controlcatalog.cue](https://github.com/gemaraproj/gemara/blob/main/controlcatalog.cue)):
 
 **Validation commands:**
 
 ```bash
 go install cuelang.org/go/cmd/cue@latest
-cue vet -c -d '#ControlCatalog' github.com/gemaraproj/gemara@latest your-control-catalog.yaml
+cue vet -c -d '#ControlCatalog' github.com/gemaraproj/gemara@latest your-control-catalog-example.yaml
 ```
+
+From a **clone of this repository** (run from the repo root; replace the placeholder with your file path):
+
+```bash
+cue vet -c -d '#ControlCatalog' . your-control-catalog-example.yaml
+```
+
+A reference copy is [control-catalog.yaml](control-catalog.yaml) in this directory.
 
 Fix any reported errors (e.g., missing required fields, invalid `group` reference, or malformed `threats`) so the catalog is schema-consistent.
 
 ### Step 5: Assemble the Full Catalog and Validate
 
-Combine metadata, mapping-references, groups, imported-controls (if any), and controls into a single YAML document. A complete, schema-valid catalog for the SEC.SLAM.CM scenario is in [control-catalog.yaml](control-catalog.yaml) in this directory.
+Combine metadata, mapping-references, groups, `imports` (if any), and controls into a single YAML document. A complete, schema-valid catalog for the SEC.SLAM.CM scenario is in [control-catalog.yaml](control-catalog.yaml) in this directory.
 
 **Complete example (SEC.SLAM.CM):**
 
@@ -227,6 +236,8 @@ title: Container Management Tool Security Control Catalog
 
 metadata:
   id: SEC.SLAM.CM
+  type: ControlCatalog
+  gemara-version: "0.20.0"
   description: |
     Control catalog for container management tool security; mitigates threats
     from the SEC.SLAM.CM threat catalog.
@@ -241,7 +252,7 @@ metadata:
       version: "1.0.0"
       url: https://example.org/catalogs/SEC.SLAM.CM-threats.yaml
       description: |
-        Threat catalog for the same scope; provides threat IDs for threat-mappings.
+        Threat catalog for the same scope; provides threat IDs for `threats` mappings.
     - id: CCC
       title: Common Cloud Controls Core
       version: v2025.10
@@ -276,7 +287,6 @@ groups:
       Controls that ensure container images are authentic, unmodified, and from trusted sources throughout retrieval and use.
 
 imports:
-  controls:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CTL42
@@ -286,7 +296,24 @@ controls:
   - id: SEC.SLAM.CM.CTL01
     title: Use Immutable Image References by Digest
     objective: |
-      Require signature validation so that only legitimate, trusted images are accepted; then pin each image to an immutable digest (e.g., sha256) after the check so that what is used matches what was verified and TOCTOU (time-of-check to time-of-use) attacks are prevented.
+      Require signature validation so that only legitimate, trusted images are
+      accepted; then pin each image to an immutable digest (e.g., sha256)
+      after the check so that what is used matches what was verified and
+      TOCTOU (time-of-check to time-of-use) attacks are prevented.
+    group: SEC.SLAM.CM.FAM01
+    state: Active
+    assessment-requirements:
+      - id: SEC.SLAM.CM.CTL01.AR01
+        text: |
+          The system MUST verify image signature before pull or run, then pin
+          the image to a digest (e.g., sha256:...) after the check and use that
+          digest for all subsequent use.
+        applicability: ["all_deployments"]
+      - id: SEC.SLAM.CM.CTL01.AR02
+        text: |
+          Configuration and policies MUST disallow or override use of tag-only
+          references for production or sensitive workloads where supported.
+        applicability: ["production"]
     threats:
       - reference-id: SEC.SLAM.CM
         entries:
@@ -301,13 +328,6 @@ controls:
     objective: |
       Mitigate MITM Container Image Interception by protecting registry traffic and verifying artifact integrity: use
       TLS/SSL with certificate pinning for all registry communication, use VPNs on untrusted networks to reduce interception risk, and verify artifact signatures or hashes so that tampered or redirected content is detected even if the channel is compromised.
-    threats:
-      - reference-id: SEC.SLAM.CM
-        entries:
-          - reference-id: SEC.SLAM.CM.THR02
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.TH02
     group: SEC.SLAM.CM.FAM01
     state: Active
     assessment-requirements:
@@ -326,12 +346,19 @@ controls:
           The system MUST verify artifact signatures or hashes (e.g. signature verification, digest check) before use so that tampered or redirected artifacts are rejected.
         applicability: ["all_deployments"]
         state: Active
+    threats:
+      - reference-id: SEC.SLAM.CM
+        entries:
+          - reference-id: SEC.SLAM.CM.THR02
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH02
 ```
 
-**Validate** from the repo root:
+**Validate** from the repo root (use your catalog path, e.g. `your-control-catalog-example.yaml`):
 
 ```bash
-cue vet -c -d '#ControlCatalog' ./layer-2.cue ./metadata.cue ./mapping.cue ./base.cue docs/tutorials/controls/control-catalog.yaml
+cue vet -c -d '#ControlCatalog' . your-control-catalog-example.yaml
 ```
 
 Fix any reported errors (e.g., missing required fields, invalid `group` reference, or malformed `threats`) so the catalog is schema-consistent.
@@ -348,4 +375,4 @@ Fix any reported errors (e.g., missing required fields, invalid `group` referenc
 
 Use the control catalog in downstream Gemara layers: for example, map controls to Layer 1 guidelines via `guidelines`, or use the catalog in Layer 5 evaluations to record which assessment requirements have been verified.
 
-See the [Gemara Layer 2 schema documentation](https://gemara.openssf.org/schema/layer-2.html) for the full specification and optional fields (e.g., `state`, `replaced-by`, `guidelines`).
+See the [Layer 2 schema documentation](https://gemara.openssf.org/schema/layer-2.html) and [controlcatalog.cue](https://github.com/gemaraproj/gemara/blob/main/controlcatalog.cue) for the full specification and optional fields (e.g., `state`, `replaced-by`, `guidelines`).

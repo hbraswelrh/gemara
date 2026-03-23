@@ -5,7 +5,7 @@ title: Organizational Risk & Policy Guide
 
 ## What This Is
 
-This guide walks through creating a **Policy Document** using the [Gemara](https://gemara.openssf.org/) project. The document conforms to the **Policy** schema in `layer-3.cue`.
+This guide walks through creating a **Policy Document** using the [Gemara](https://gemara.openssf.org/) project. The document conforms to `#Policy` in [policy.cue](https://github.com/gemaraproj/gemara/blob/main/policy.cue).
 
 Terms to know:
 * **RACI**: Who is responsible, accountable, consulted, and informed.
@@ -21,7 +21,7 @@ This exercise produces a policy document that captures scope, imported controls 
 
 ### Step 0: Metadata and mapping-references
 
-Set `title` and `metadata` (see [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue) for the standard metadata fields). Include `mapping-references` for every external catalog, guidance document, or policy you reference in `imports` (by `reference-id`). Key fields (see [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) and [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue)):
+Set `title` and `metadata` (see [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue) for the standard metadata fields). Include `mapping-references` for every external catalog, guidance document, or policy you reference in `imports` (by `reference-id`). Key fields (see [policy.cue](https://github.com/gemaraproj/gemara/blob/main/policy.cue) and [metadata.cue](https://github.com/gemaraproj/gemara/blob/main/metadata.cue)):
 
 | Field                         | What It Is                                                                 | Why                                                                 |
 |-------------------------------|----------------------------------------------------------------------------|---------------------------------------------------------------------|
@@ -202,8 +202,16 @@ Using the **published** module:
 
 ```bash
 go install cuelang.org/go/cmd/cue@latest
-cue vet -c -d '#Policy' github.com/gemaraproj/gemara@latest your-policy.yaml
+cue vet -c -d '#Policy' github.com/gemaraproj/gemara@latest your-policy-example.yaml
 ```
+
+From a **clone of this repository** (run from the repo root; replace the placeholder with your file path):
+
+```bash
+cue vet -c -d '#Policy' . your-policy-example.yaml
+```
+
+A reference copy is [policy-example.yaml](policy-example.yaml) in this directory.
 
 Fix any errors (e.g. missing required fields, invalid reference-ids, or type mismatches) so the policy is schema-valid.
 
@@ -215,6 +223,8 @@ A complete, schema-valid copy of this policy is in [policy-example.yaml](policy-
 title: "Information Security Policy for Cloud and Web Applications"
 metadata:
   id: "org-policy-001"
+  type: Policy
+  gemara-version: "0.20.0"
   description: "Policy for cloud and web application security; references control catalogs."
   version: "1.0.0"
   author:
@@ -273,4 +283,4 @@ adherence:
 - Use the policy in **Layer 5** evaluations to determine whether implementations conform.
 - Use **Layer 7** audit and continuous monitoring to assess policy effectiveness.
 
-See the [Layer 3 schema documentation](https://gemara.openssf.org/schema/layer-3.html) and [layer-3.cue](https://github.com/gemaraproj/gemara/blob/main/layer-3.cue) for the full specification.
+See the [Layer 3 schema documentation](https://gemara.openssf.org/schema/layer-3.html) and [policy.cue](https://github.com/gemaraproj/gemara/blob/main/policy.cue) for the full specification.

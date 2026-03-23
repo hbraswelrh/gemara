@@ -1,5 +1,5 @@
 # Information Security Policy for Cloud and Web Applications (Layer 3)
-# Conforms to Gemara Layer 3 #Policy (layer-3.cue).
+# Conforms to Gemara #Policy (policy.cue).
 # Aligned to threat-assessment-guide scope (SEC.SLAM.CM) and policy guide.
 title: "Information Security Policy for Cloud and Web Applications"
 metadata:

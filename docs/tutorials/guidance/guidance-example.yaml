@@ -1,5 +1,5 @@
 # Minimal Secure Software Development Guidance
-# Conforms to Gemara Layer 1 #GuidanceCatalog (layer-1.cue).
+# Conforms to Gemara #GuidanceCatalog (guidancecatalog.cue).
 # See guidance-guide.md for the full guide.
 
 title: Secure Software Development Guidance

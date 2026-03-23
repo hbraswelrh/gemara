@@ -1,0 +1,37 @@
+# Container management tool — capability catalog (Layer 2)
+# Conforms to Gemara #CapabilityCatalog (capabilitycatalog.cue).
+# Paired with threat-catalog-example.yaml (threats reference these capability ids).
+title: Container Management Tool Security Capability Catalog
+metadata:
+  id: SEC.SLAM.CM.CAP
+  type: CapabilityCatalog
+  gemara-version: "0.20.0"
+  description: |
+    Local capabilities for the container management tool assessment;
+    referenced from the SEC.SLAM.CM threat catalog.
+  version: "1.0.0"
+  author:
+    id: example
+    name: Example
+    type: Human
+
+groups:
+  - id: SEC.SLAM.CM.FAM01
+    title: Image Retrieval and Resolution
+    description: |
+      Capabilities for how the tool retrieves images and resolves references.
+
+capabilities:
+  - id: SEC.SLAM.CM.CAP01
+    title: Image Retrieval by Tag
+    description: |
+      Ability to retrieve container images from registries using mutable tag names
+      (e.g., 'latest', 'v1.0').
+    group: SEC.SLAM.CM.FAM01
+  - id: SEC.SLAM.CM.CAP02
+    title: Image Reference Lookup
+    description: |
+      The container management tool determines which artifact an image reference
+      (e.g. tag, URL) refers to via network requests; that determination may occur
+      at a different time than use, and references may be mutable.
+    group: SEC.SLAM.CM.FAM01

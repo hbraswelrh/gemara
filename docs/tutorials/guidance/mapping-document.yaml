@@ -1,3 +1,6 @@
+# Maps guidance in guidance-example.yaml (metadata.id ORG.SSD.001) to OWASP Top 10.
+# Conforms to Gemara #MappingDocument (mappingdocument.cue). Entry-type may also be
+# Principle (and other #EntryType values) for principle catalogs, etc.
 title: Secure Software Development Guidance to OWASP Top 10
 metadata:
   id: SSD-OWASP-MAP-001
@@ -12,7 +15,7 @@ metadata:
     name: Gemara Example Author
     type: Human
   mapping-references:
-    - id: ORG-SSD
+    - id: ORG.SSD.001
       title: Secure Software Development Guidance
       version: "1.0.0"
       url: "file://guidance-example.yaml"
@@ -22,7 +25,7 @@ metadata:
       url: "https://owasp.org/Top10"
 
 source-reference:
-  reference-id: ORG-SSD
+  reference-id: ORG.SSD.001
 target-reference:
   reference-id: OWASP
 remarks: Guidance guidelines ORG.SSD.GL01–GL03 mapped to OWASP for tutorial use.
