@@ -37,15 +37,9 @@ Declare your scope and mapping references for the `ThreatCatalog`. Key fields:
 | `title` | Display name for the threat catalog (top-level field) | Human-readable label used in reports and tooling output |
 | `metadata.type` | Must be `ThreatCatalog` | Identifies the artifact for `#ThreatCatalog` validation |
 | `metadata.gemara-version` | String (e.g. `1.0.0-rc.1`) | Declares which Gemara specification version the file conforms to (required) |
-<<<<<<< HEAD
-| `mapping-references` with `id: CCC` | Pointer to the CCC Core catalog release | Resolve imported CCC capability and threat IDs used in `imports` and in each threat's `capabilities` |
-| `mapping-references` for scope capabilities | Pointer to your `CapabilityCatalog` (see Step 2) | Resolve IDs such as `SEC.SLAM.CM.CAP01` referenced from each threat's `capabilities` |
-| Top-level `imports` (optional) | List of `#MultiEntryMapping` rows | Pull CCC (or other) threat entries into this catalog without redefining them |
-=======
 | `mapping-references` with `id: CCC` | Pointer to the CCC Core catalog release | Resolve imported CCC capability and threat IDs used in `imports` and in each threat's `capabilities` |
 | `mapping-references` for scope capabilities | Pointer to your `CapabilityCatalog` (see Step 2) | Resolve IDs such as `SEC.SLAM.CM.CAP01` referenced from each threat's `capabilities` |
 | Top-level `imports` (optional) | List of `#MultiEntryMapping` rows | Pull CCC (or other) capability/threat entries into this catalog without redefining them |
->>>>>>> 4180fdc (fix: updates broken links)
 
 **Example (YAML)** — threat catalog metadata only:
 
@@ -141,7 +135,7 @@ Check for imported **[threats](../../model/02-definitions.html#threat)** first. 
 
 **Importing from CCC.** List CCC rows under top-level `imports` as a list of mappings. You can include both capability and threat IDs from CCC in the same `entries` list when they come from that single mapping reference.
 
-**Example (YAML)** — `imports` on the threat catalog:
+**Example (YAML)** — `imports` on the threat catalog (fragment only; a real `ThreatCatalog` file still needs `title`, `metadata` including `gemara-version`, and the rest as in Step 1 and Step 4):
 
 ```yaml
 imports:
@@ -167,7 +161,7 @@ imports:
 | `vectors` | No | Optional link to vector catalog entries |
 | `actors` | No | Optional threat actors (`#Actor`) |
 
-**Example (YAML)** — a custom threat (*Container Image Tampering or Poisoning*) linked to the capabilities it exploits: **CCC.Core.CP29** (Active Ingestion), **CCC.Core.CP18** (Resource Versioning), and **SEC.SLAM.CM.CAP01** (Image Retrieval by Tag) via your scope capability catalog reference (`SEC.SLAM.CM.CAP`).
+**Example (YAML)** — a custom threat (*Container Image Tampering or Poisoning*) linked to the capabilities it exploits: **CCC.Core.CP29** (Active Ingestion), **CCC.Core.CP18** (Resource Versioning), and **SEC.SLAM.CM.CAP01** (Image Retrieval by Tag) via your scope capability catalog reference (`SEC.SLAM.CM.CAP`). (Fragment only — combine with `title`, `metadata` (`gemara-version`, etc.), `mapping-references`, and optional `imports` from earlier steps.)
 
 ```yaml
 groups:
