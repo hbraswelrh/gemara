@@ -33,6 +33,8 @@ Declare your scope and mapping references. Key fields:
 | Field                               | What It Is                                                   | Why                                                                                       |
 |-------------------------------------|--------------------------------------------------------------|-------------------------------------------------------------------------------------------|
 | `title`                             | Display name for the threat catalog (top-level field)        | Human-readable label used in reports and tooling output                                   |
+| `metadata.type`                   | Must be `ThreatCatalog`                                      | Identifies the artifact for `#ThreatCatalog` validation                                   |
+| `metadata.gemara-version`         | String (e.g. `1.0.0-rc.1`)                                   | Declares which Gemara specification version the file conforms to               |
 | `mapping-references` with `id: CCC` | A pointer to the CCC Core catalog release                    | Tells parsers where to resolve the imported capability and threat IDs used in later steps |
 | `imported-capabilities` (Step 2)    | Specific CCC Core capabilities by ID (e.g., `CCC.Core.CP29`) | Brings in common capabilities without redefining them                                     |
 | `imported-threats` (Step 3)         | Specific CCC Core threats by ID (e.g., `CCC.Core.TH14`)      | Brings in common threats without redefining them                                         |
@@ -43,6 +45,8 @@ Declare your scope and mapping references. Key fields:
 title: Container Management Tool Security Threat Catalog
 metadata:
   id: SEC.SLAM.CM
+  type: ThreatCatalog
+  gemara-version: "1.0.0-rc.1"
   description: Threat catalog for container management tool security assessment
   version: 1.0.0
   author:
@@ -158,6 +162,8 @@ The final YAML should look something like this:
 ```yaml
 metadata:
   id: SEC.SLAM.CM
+  type: ThreatCatalog
+  gemara-version: "1.0.0-rc.1"
   description: Threat catalog for container management tool security assessment
   version: 1.0.0
   author:
