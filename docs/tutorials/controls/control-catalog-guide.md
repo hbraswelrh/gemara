@@ -9,9 +9,9 @@ description: Step-by-step guide to creating Gemara-compatible control catalogs
 This guide walks through creating a **control catalog** using the [Gemara](https://gemara.openssf.org/) project, building on the threats and scope you identified in the [Threat Assessment Guide](threat-assessment-guide).
 
 In technical terms:
-* **Controls** are safeguards with a stated objective and a list of assessment requirements.
+* **[Controls](../../glossary/control)** are safeguards with a stated **[objective](../../glossary/objective)** and a list of **[assessment requirements](../../glossary/assessment-requirement)**.
 * **Groups** group related controls by domain (e.g., supply chain, access control).
-* **Threats** link each control to the threat(s) it mitigates, connecting your control catalog to your layer 2 threat catalog.
+* **[Threats](../../glossary/threat)** link each control to the threat(s) it mitigates, connecting your control catalog to your layer 2 threat catalog.
 
 This exercise produces a structured way to develop control objectives and corresponding testable conditions to determine if the objective is met.
 
@@ -36,11 +36,11 @@ Declare your control catalog and mapping references. Key fields:
 
 | Field                               | What It Is                                                   | Why                                                                                       |
 |-------------------------------------|--------------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| `title`                             | Display name for the control catalog (top-level field)       | Human-readable label used in reports and tooling output                                   |
-| `metadata.type`                     | Must be `ControlCatalog`                                     | Identifies the artifact kind for `#ControlCatalog` validation             |
+| `title`                             | Display name for the [control catalog](../../glossary/catalog) (top-level field)       | Human-readable label used in reports and tooling output                                   |
+| `metadata.type`                     | Must be `ControlCatalog`                                     | Identifies the artifact kind for validation             |
 | `metadata.gemara-version`           | String (e.g. `1.0.0-rc.1`)                                   | Declares which Gemara specification version the file conforms to (required in current schema) |
-| `mapping-references` with `id: CCC` | Optional pointer to CCC or another control/threat catalog   | Resolve imported capability and control IDs from the referenced catalog                  |
-| `applicability-groups`          | List of groups (id, title, description) for when controls apply | Scope assessment requirements by context (e.g., production, CI/CD) so evaluators know when each requirement applies |
+| `mapping-references` with `id: CCC` | Optional pointer to CCC or another [control](../../glossary/control)/[threat](../../glossary/threat) catalog   | Resolve imported [capability](../../glossary/capability) and [control](../../glossary/control) IDs from the referenced catalog                  |
+| `applicability-groups`          | List of groups (id, title, description) for when [controls](../../glossary/control) apply | Scope [assessment requirements](../../glossary/assessment-requirement) by context (e.g., production, CI/CD) so evaluators know when each requirement applies |
 
 > **Note:** Applicability groups **must** be defined to assign applicability to controls.
 
@@ -96,9 +96,9 @@ metadata:
 
 ### Step 2: Define Control Groups
 
-**Groups** group controls by theme. The Layer 2 schema requires at least one group when the catalog defines its own `controls`. Each control's `group` field must match the `id` of one of these groups.
+**Groups** group [controls](../../glossary/control) by theme. The Layer 2 schema requires at least one group when the catalog defines its own `controls`. Each [control](../../glossary/control)'s `group` field must match the `id` of one of these groups.
 
-Required fields for each group (see `#Group` in the Gemara CUE package):
+Required fields for each group:
 
 | Field         | Required | Description                                  |
 |---------------|----------|----------------------------------------------|
@@ -122,7 +122,7 @@ groups:
 > **Note:** For how controls are automatically pulled into policy to mitigate high-severity risks, see the FAQ.
 
 
-**Option A — Import Controls:** If an external catalog (e.g., CCC) defines controls that address your threats, reference it in `mapping-references` and list imported controls under top-level `imports`. Each item is a `#MultiEntryMapping`: a `reference-id` matching a `mapping-references` entry and an `entries` list of control IDs (with optional `remarks`).
+**Option A — Import Controls:** If an external [catalog](../../glossary/catalog) (e.g., CCC) defines [controls](../../glossary/control) that address your [threats](../../glossary/threat), reference it in `mapping-references` and list imported [controls](../../glossary/control) under top-level `imports`.
 
 **Example (YAML):**
 
@@ -146,7 +146,7 @@ imports:
 | `threats`        | No       | Links to threat catalog(s) and threat IDs this control mitigates |
 | `state`                  | No       | Lifecycle: `Active`, `Draft`, `Deprecated`, `Retired`; omitted is treated as `Active`. |
 
-Each **assessment requirement** must have:
+Each **[assessment requirement](../../glossary/assessment-requirement)** must have:
 
 | Field           | Required | Description                                                                 |
 |-----------------|----------|-----------------------------------------------------------------------------|
@@ -222,7 +222,7 @@ controls:
 
 ### Step 4: Validate Against the Gemara Schema
 
-Validate the final catalog with CUE against the published module (use `v1` for `cue vet`; `metadata.gemara-version` can still record a release candidate):
+Validate the final [catalog](../../glossary/catalog) with CUE:
 
 **Validation commands:**
 
@@ -235,7 +235,7 @@ Fix any reported errors (e.g., missing required fields, invalid `group` referenc
 
 ### Step 5: Assemble the Full Catalog and Validate
 
-Combine metadata, mapping-references, groups, `imports` (if any), and controls into a single YAML document. A complete, schema-valid catalog for the SEC.SLAM.CM scenario is in [control-catalog.yaml](control-catalog.yaml) in this directory.
+Combine metadata, mapping-references, groups, `imports` (if any), and controls into a single YAML document. A complete, schema-valid catalog for the SEC.SLAM.CM scenario is in [control-catalog.yaml](control-catalog.yaml).
 
 **Complete example (SEC.SLAM.CM):**
 
@@ -378,6 +378,7 @@ controls:
 Using the **published** module:
 
 ```bash
+go install cuelang.org/go/cmd/cue@latest
 cue vet -c -d '#ControlCatalog' github.com/gemaraproj/gemara@v1 your-control-catalog.yaml
 ```
 

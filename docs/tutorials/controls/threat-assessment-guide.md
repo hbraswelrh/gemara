@@ -8,15 +8,15 @@ description: Step-by-step guide to performing Gemara-compatible threat assessmen
 
 This guide walks through a threat assessment using the [Gemara](https://gemara.openssf.org/) project.
 
-**The basic idea:** Think of a project like a house. First, you identify what the house can do: its **capabilities** (e.g., "allow entry/exit", "store belongings"). Then, you identify **threats**, what could go wrong with those capabilities (e.g., "unauthorized entry through unlocked door", "theft of stored belongings").
+**The basic idea:** Think of a project like a house. First, you identify what the house can do: its **[capabilities](../../glossary/capability)** (e.g., "allow entry/exit", "store belongings"). Then, you identify **[threats](../../glossary/threat)**, what could go wrong with those capabilities (e.g., "unauthorized entry through unlocked door", "theft of stored belongings").
 
 In technical terms:
-* **Capabilities** define what the technology can do. These form a primary component of the **attack surface** because every intended function represents a potential path for unintended use.
-* **Threats** define specific ways those capabilities could be misused or exploited.
+* **[Capabilities](../../glossary/capability)** define what the technology can do. These form a primary component of the **attack surface** because every intended function represents a potential path for unintended use.
+* **[Threats](../../glossary/threat)** define specific ways those capabilities could be misused or exploited.
 
 This exercise helps you systematically identify what could go wrong so you can build appropriate defenses.
 
-Gemara splits these into two artifact kinds: **`CapabilityCatalog`** for capability definitions, and **`ThreatCatalog`** for threats. A threat catalog references capabilities via `mapping-references` on each threat. 
+Gemara splits these into two artifact kinds: `CapabilityCatalog` for capability definitions, and `ThreatCatalog` for threats. A threat catalog references capabilities via `mapping-references` on each threat. 
 
 ## Walkthrough
 
@@ -73,7 +73,7 @@ metadata:
 
 ### Step 2: Identify Capabilities (Capability catalog)
 
-Capabilities are the core functions or features within the scope. In Gemara they live in a `CapabilityCatalog`. For SEC.SLAM.CM, scope-specific capabilities are in [capabilities.yaml](capabilities.yaml) (`metadata.id` **`SEC.SLAM.CM.CAP`**) so threats can reference them with `reference-id: SEC.SLAM.CM.CAP` and `entries` listing IDs such as `SEC.SLAM.CM.CAP01`.
+Capabilities are the core functions or features within the scope. In Gemara they live in a `CapabilityCatalog`. For SEC.SLAM.CM, scope-specific capabilities are in [capabilities.yaml](capabilities.yaml) (`metadata.id` `SEC.SLAM.CM.CAP`) so threats can reference them with `reference-id: SEC.SLAM.CM.CAP` and `entries` listing IDs such as `SEC.SLAM.CM.CAP01`.
 
 **Start with the imported capabilities** you can leverage from FINOS CCC. Ask: "Which common cloud capabilities does this technology have?" 
 
@@ -129,7 +129,9 @@ capabilities:
 
 ### Step 3: Identify Threats (Threat catalog)
 
-In a `ThreatCatalog`, put threats under `threats`; each threat’s `capabilities` use a `reference-id` from `mapping-references` and an `entries` list of capability IDs.
+**[Threats](../../glossary/threat)** are specific ways **[capabilities](../../glossary/capability)** can be misused, exploited, or cause problems. For each **[capability](../../glossary/capability)**, identify potential **[threats](../../glossary/threat)**.
+
+Check for imported **[threats](../../glossary/threat)** first. As with **[capabilities](../../glossary/capability)**, review the CCC Core catalog for threats linked to the capabilities you imported. If a threat fits your scope, import it. In this example, CCC Core defines **TH14** ("Older Resource Versions are Used") which is linked to **CP18**. It applies because mutable image tags let the tool resolve to a stale or compromised version.
 
 **Importing from CCC.** List CCC rows under top-level `imports` as a list of mappings. You can include both capability and threat IDs from CCC in the same `entries` list when they come from that single mapping reference.
 
@@ -151,15 +153,15 @@ imports:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `id` | Yes | Unique identifier (e.g. `ORG.PROJ.COMPONENT.THR##`) |
+| `id` | Yes | Unique identifier following the pattern `ORG.PROJ.COMPONENT.THR##` |
 | `title` | Yes | Short name for the threat |
 | `description` | Yes | What goes wrong and why it matters |
 | `group` | Yes | `id` of a **group** defined in this threat catalog |
-| `capabilities` | Yes | `#MultiEntryMapping` list linking to exploited capabilities |
+| `capabilities` | Yes | Links this threat to the [capabilities](../../glossary/capability) it exploits |
 | `vectors` | No | Optional link to vector catalog entries |
 | `actors` | No | Optional threat actors (`#Actor`) |
 
-**Example (YAML)** — a custom threat (*Container Image Tampering or Poisoning*) linked to the capabilities it exploits: **CCC.Core.CP29** (Active Ingestion), **CCC.Core.CP18** (Resource Versioning), and **SEC.SLAM.CM.CAP01** (Image Retrieval by Tag) via your scope capability catalog reference (**`SEC.SLAM.CM.CAP`**).
+**Example (YAML)** — a custom [threat](../../glossary/threat) (*Container Image Tampering or Poisoning*) linked to the [capabilities](../../glossary/capability) it exploits: **CCC.Core.CP29** (Active Ingestion), **CCC.Core.CP18** (Resource Versioning), and **SEC.SLAM.CM.CAP01** (Image Retrieval by Tag) via your scope capability catalog reference (`SEC.SLAM.CM.CAP`).
 
 ```yaml
 groups:
@@ -189,7 +191,7 @@ threats:
 
 ### Step 4: Validate
 
-The final threat catalog YAML combines `title`, `metadata` (including `mapping-references`), optional top-level `imports`, `groups`, and `threats`. Scope-specific capabilities remain in [capabilities.yaml](capabilities.yaml). **The final YAML should look something like this:**
+The final YAML should look something like this:
 
 ```yaml
 title: Container Management Tool Security Threat Catalog
@@ -259,11 +261,10 @@ The complete tutorial adds more CCC imports and additional threats; see [threat-
 **Validation commands:**
 
 ```bash
+go install cuelang.org/go/cmd/cue@latest
 cue vet -c -d '#CapabilityCatalog' github.com/gemaraproj/gemara@v1 docs/tutorials/controls/your-capabilities.yaml
 cue vet -c -d '#ThreatCatalog' github.com/gemaraproj/gemara@v1 docs/tutorials/controls/your-threat-catalog.yaml
 ```
-
-Fix any reported errors (e.g. missing `group`, unknown `mapping-references` id, or malformed `capabilities` / `imports`).
 
 ## What's Next
 
